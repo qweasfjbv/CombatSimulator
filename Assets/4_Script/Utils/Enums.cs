@@ -30,6 +30,11 @@ namespace Defense.Utils
 		Destroy,
 		Hit,
 		Lightning,
+		Meteor
+	}
 
+	public enum ProjectileType
+	{
+		Arrow,
 	}
 }

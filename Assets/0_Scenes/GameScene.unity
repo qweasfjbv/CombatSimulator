@@ -283,7 +283,7 @@ GameObject:
   - component: {fileID: 168387498}
   - component: {fileID: 168387499}
   m_Layer: 0
-  m_Name: '@ParticleManager'
+  m_Name: '@PoolingManager'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -313,19 +313,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 168387497}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a7b4ba8f1b1fc1847a32eebff4ee0c44, type: 3}
+  m_Script: {fileID: 11500000, guid: 720b10e4c2a5f7a46a5566d29f2c1c1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   particleEntries:
-  - Key: 2
-    Prefab: {fileID: 6837061768053742933, guid: c041548ad5f52014d8ae27de23cf2764, type: 3}
-    PoolSize: 30
   - Key: 0
     Prefab: {fileID: 160018, guid: 0aa5a49247ad9a94a9b8b0bae3656bf3, type: 3}
-    PoolSize: 10
+    PoolSize: 15
+  - Key: 2
+    Prefab: {fileID: 6837061768053742933, guid: c041548ad5f52014d8ae27de23cf2764, type: 3}
+    PoolSize: 20
   - Key: 3
     Prefab: {fileID: 5627696518775099638, guid: 390cc74915d4a054bbd897e1885047a4, type: 3}
-    PoolSize: 10
+    PoolSize: 30
+  projectileEntries:
+  - Key: 0
+    Prefab: {fileID: 1425425167484275714, guid: a1574a0310ebea247b8bcd58ce125ee3, type: 3}
+    PoolSize: 30
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0
@@ -734,6 +738,37 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f46056aa6c238664bb6e0af30f681126, type: 3}
+--- !u!1 &484594279
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 484594280}
+  m_Layer: 0
+  m_Name: =========Canvas==========
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &484594280
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 484594279}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 170.81253, y: 379.10376, z: -7.5182934}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &489522967 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: f46056aa6c238664bb6e0af30f681126, type: 3}
@@ -789,7 +824,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damageTextPrefab: {fileID: 4421728260293930442, guid: f02a0a290a1961c4d99ecdb00c89480e, type: 3}
   textParent: {fileID: 677954679}
-  damageFontSize: 40
+  fontSizeConstant: 600
 --- !u!4 &727287902 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: cba5dcbe606db5c489d9a7269c56598a, type: 3}
@@ -1914,5 +1949,6 @@ SceneRoots:
   - {fileID: 905769949}
   - {fileID: 1811063207}
   - {fileID: 168387498}
+  - {fileID: 484594280}
   - {fileID: 966252198}
   - {fileID: 12086044}

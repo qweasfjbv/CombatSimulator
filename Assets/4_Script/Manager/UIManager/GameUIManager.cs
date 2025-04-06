@@ -21,7 +21,7 @@ namespace Defense.Manager
 			Vector2 screenPos = Camera.main.WorldToScreenPoint(worldPos);
 			Vector2 localPoint;
 			RectTransformUtility.ScreenPointToLocalPointInRectangle(damagePool.GetComponent<RectTransform>(), screenPos, null, out localPoint);
-			damagePool.Show(localPoint, damage, damageType, resultType);
+			damagePool.ShowDamageText(localPoint, damage, damageType, resultType);
 		}
 	}
 }

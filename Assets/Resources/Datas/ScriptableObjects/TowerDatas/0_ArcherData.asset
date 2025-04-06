@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fd1419d2963fea49a80f1475906aeaf, type: 3}
   m_Name: 0_ArcherData
   m_EditorClassIdentifier: 
-  _damageType: 0
+  _damageType: 2
   _towerRange: 15
-  _attackCooltime: 0.3
+  _attackCooltime: 0.2
   _attackDelay: 0.3
   _searchEnemyType: 0
   _targetLayer:

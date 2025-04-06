@@ -6,6 +6,7 @@ using System;
 using Defense.Interfaces;
 using UnityEngine;
 using Defense.Manager;
+using Unity.VisualScripting;
 
 namespace Defense.Controller
 {
@@ -74,7 +75,7 @@ namespace Defense.Controller
 		{
 			if (isEnemyDead) return;
 
-			float trueDamage = Calculation.CalculateDamage(currentDef, type, damage);
+			float trueDamage = Calculation.CalculateDamage(enemyData.StatsByLevel[0], type, damage);
 			afterHP -= trueDamage;
 
 			var cts = new CancellationTokenSource();
@@ -120,7 +121,7 @@ namespace Defense.Controller
 		{
 			if (isEnemyDead) return;
 
-			float trueDamage = Calculation.CalculateDamage(currentDef, type, damage);
+			float trueDamage = Calculation.CalculateDamage(enemyData.StatsByLevel[0], type, damage);
 			afterHP -= trueDamage;
 			currentHP -= trueDamage;
 
@@ -172,7 +173,7 @@ namespace Defense.Controller
 			animator.SetFloat(animIDSpeed, 0f);
 			animator.SetFloat(animIDDamagedMT, damagedClipLength / knockbackRemainedTime);
 			animator.SetTrigger(animIDDamaged);
-			ParticleManager.Instance.SpawnParticle(ParticleType.Hit, myTransform.position);
+			PoolingManager.Instance.SpawnParticle(ParticleType.Hit, myTransform.position);
 		}
 		private void OnUpdateKnockbackRemainedTime()
 		{

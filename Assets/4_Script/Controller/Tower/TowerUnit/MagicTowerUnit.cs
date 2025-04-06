@@ -9,7 +9,7 @@ namespace Defense.Controller
 		public override void Attack(Transform target)
 		{
 			target.GetComponent<IDamagable>().GetImmediateDamage(towerData.DamageType, 1f);
-			ParticleManager.Instance.SpawnParticle(Utils.ParticleType.Lightning, target.position);
+			PoolingManager.Instance.SpawnParticle(Utils.ParticleType.Lightning, target.position);
 		}
 	}
 }

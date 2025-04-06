@@ -8,9 +8,10 @@ namespace Defense.Utils
 		/// <summary>
 		/// defense, damage, type 을 통해 줄어들 HP를 계산합니다.
 		/// </summary>
-		public static float CalculateDamage(float myDef, DamageType type, float damage)
+		public static float CalculateDamage(LevelStat stat , DamageType type, float damage)
 		{
-			return damage * (1 - (myDef / (100 + myDef)));
+			return -1f;
+			return damage * (1 - (stat.DefensePower / (100 + stat.DefensePower)));
 		}
 
 		public static Vector3 GetConsistentBisector(Vector3 dir1, Vector3 dir2)

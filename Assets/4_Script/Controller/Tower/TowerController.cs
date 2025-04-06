@@ -11,7 +11,7 @@ namespace Defense.Controller
 
 		private void OnEnable()
 		{
-			ParticleManager.Instance.SpawnParticle(ParticleType.Build, transform.position);
+			PoolingManager.Instance.SpawnParticle(ParticleType.Build, transform.position);
 		}
 
 		public void InitTower(int towerId)

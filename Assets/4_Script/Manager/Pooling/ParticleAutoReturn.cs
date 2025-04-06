@@ -24,9 +24,9 @@ namespace Defense
 		{
 			await UniTask.WaitUntil(() => !ps.IsAlive(true));
 
-			if (ParticleManager.Instance != null)
+			if (PoolingManager.Instance != null)
 			{
-				ParticleManager.Instance.ReturnToPool(originKey, ps);
+				PoolingManager.Instance.ReturnToParticlePool(originKey, ps);
 			}
 		}
 	}
