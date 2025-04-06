@@ -14,6 +14,14 @@ namespace Defense.Utils
 	{
 		Physics,
 		Magic,
+		True
+	}
+
+	public enum HitResultType
+	{
+		Miss,
+		Normal,
+		Critical
 	}
 
 	public enum ParticleType

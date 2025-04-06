@@ -110,7 +110,9 @@ namespace Defense.Controller
 		{
 			if (isEnemyDead) return;
 
-			currentHP -= trueDamage;
+			currentHP -= trueDamage; 
+
+			UIManager.Instance.GameUI.ShowDamage(transform.position + Vector3.up * 1.8f, trueDamage, type, HitResultType.Normal);
 			damagable.CheckIfDied();
 			ApplyKnockback();
 		}
@@ -122,6 +124,7 @@ namespace Defense.Controller
 			afterHP -= trueDamage;
 			currentHP -= trueDamage;
 
+			UIManager.Instance.GameUI.ShowDamage(transform.position + Vector3.up * 1.8f, trueDamage, type, HitResultType.Normal);
 			damagable.CheckIfDied();
 			ApplyKnockback();
 		}

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _damageType: 0
   _towerRange: 15
-  _attackCooltime: 0.8
+  _attackCooltime: 0.3
   _attackDelay: 0.3
   _searchEnemyType: 0
   _targetLayer:
