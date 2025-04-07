@@ -46,7 +46,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04346a25e62791c4ab8cab41fa0f4d9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitController: {fileID: 5309089058306364196}
 --- !u!114 &9158394462469459841
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -257,7 +256,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 121fd9a352de21c45aab2c64571812a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponSocket: {fileID: 2629157422615256534}
+  isTowerUnit: 1
+  routeId: 0
+  enemyId: 2
 --- !u!4 &789474920456741940 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 444348, guid: 1854a3b64b66724429ff0b04e0891fc1, type: 3}

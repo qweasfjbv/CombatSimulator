@@ -7,31 +7,31 @@ namespace Defense.Manager
 	{
 		private string enemyDataPath = "Datas/ScriptableObjects/EnemyDatas/";
 		private string routeDataPath = "Datas/ScriptableObjects/RouteDatas/";
-		private string towerDataPath = "Datas/ScriptableObjects/TowerDatas/";
+		private string playerDataPath = "Datas/ScriptableObjects/PlayerDatas/";
 
 
-		private EnemyData[] enemyData;
+		private UnitData[] enemyData;
+		private UnitData[] playerData;
 		private RouteData[] routeData;
-		private TowerData[] towerData;
 
 		public void Init()
 		{
-			enemyData = Resources.LoadAll<EnemyData>(enemyDataPath);
+			enemyData = Resources.LoadAll<UnitData>(enemyDataPath);
+			playerData = Resources.LoadAll<UnitData>(playerDataPath);
 			routeData = Resources.LoadAll<RouteData>(routeDataPath);
-			towerData = Resources.LoadAll<TowerData>(towerDataPath);
 		}
 
-		public EnemyData GetEnemyData(int idx)
+		public UnitData GetEnemyData(int idx)
 		{
 			return enemyData[idx];
+		}
+		public UnitData GetPlayerData(int idx)
+		{
+			return playerData[idx];
 		}
 		public RouteData GetRouteData(int idx)
 		{
 			return routeData[idx];
-		}
-		public TowerData GetTowerData(int idx)
-		{
-			return towerData[idx];
 		}
 	}
 }

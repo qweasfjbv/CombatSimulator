@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Defense.Props { 
 	public class ProjectileBase : MonoBehaviour
 	{
-		private EnemyController target = null;
+		private UnitController target = null;
 		private DamageType damageType = DamageType.Physics;
 		private float damage = 0f;
 
@@ -18,7 +18,7 @@ namespace Defense.Props {
 		/// <summary>
 		/// duration동안 날라가서 damage를 입힘
 		/// </summary>
-		public void SetProjectileInfo(EnemyController target, DamageType type, float damage, float duration)
+		public void SetProjectileInfo(UnitController target, DamageType type, float damage, float duration)
 		{
 			this.target = target;
 			damageType = type;

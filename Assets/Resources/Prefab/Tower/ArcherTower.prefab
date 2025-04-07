@@ -46,7 +46,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04346a25e62791c4ab8cab41fa0f4d9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitController: {fileID: 8588089338576481654}
 --- !u!114 &9158394462469459841
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -311,8 +310,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d15f4edfc06ed9743afb7d51a7a00ede, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponSocket: {fileID: 2297041381951400390}
-  arrowPrefab: {fileID: 1425425167484275714, guid: a1574a0310ebea247b8bcd58ce125ee3, type: 3}
+  isTowerUnit: 1
+  routeId: 0
+  enemyId: 1
 --- !u!4 &1813647097765608446 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 494462, guid: 04c79b5f6e9ebab48af48fdcf7b6d570, type: 3}

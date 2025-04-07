@@ -32,6 +32,7 @@ namespace UI.Items
 			rt = damageText.GetComponent<RectTransform>();
 			tmp = damageText.GetComponent<TextMeshProUGUI>();
 
+			Debug.Log(damage);
 			DetermineTextVisual(damageType, resultType, out fontColor, out outlineColor, out fontSize);
 			visualDamage = ((int)damage == 0 ? 1 : (int)damage).ToString();
 

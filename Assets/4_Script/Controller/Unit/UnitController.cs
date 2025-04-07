@@ -3,29 +3,22 @@ using UnityEngine;
 using Defense.Utils;
 using Defense.Manager;
 using Defense.Interfaces;
-using NUnit.Framework.Internal;
+using IUtil;
 
 namespace Defense.Controller
 {
 	[RequireComponent(typeof(Animator))]
 	[RequireComponent(typeof(Collider))]
-	public partial class EnemyController : MonoBehaviour
+	public abstract partial class UnitController : MonoBehaviour
 		,IAttackable
 		,IDamagable
 	{
-
-		[SerializeField]
-		private ParticleSystem hitParticle;
-
 		/** Components **/
 		private Transform myTransform;
 		private Animator animator = null;
 
-		private IAttackable attackable = null;
-		private IDamagable damagable = null;
-
 		/** SO Datas **/
-		private EnemyData enemyData = null;
+		protected UnitData unitData = null;
 		private RouteData routeData = null;
 
 		/** Target Infos **/
@@ -61,9 +54,6 @@ namespace Defense.Controller
 			myTransform = GetComponent<Transform>();
 			animator = GetComponent<Animator>();
 
-			attackable = (IAttackable)this;
-			damagable = (IDamagable)this;
-
 			attackClipLength = animator.GetAnimationClipLength(Constants.ANIM_NAME_ATTACK);
 			damagedClipLength = animator.GetAnimationClipLength(Constants.ANIM_NAME_DAMAGE);
 			deathClipLength = animator.GetAnimationClipLength(Constants.ANIM_NAME_DEATH);
@@ -77,20 +67,40 @@ namespace Defense.Controller
 			animIDDeath = Animator.StringToHash(Constants.ANIM_PARAM_DIED);
 		}
 
+		[Header("DEBUG")]
+		public bool isTowerUnit = false;
+		public int routeId;
+		public int enemyId;
+
 		private void Update()
 		{
-			if (enemyData == null) return;
-			attackable.UpdateCooltimeTick();
-			OnUpdateKnockbackRemainedTime();
+			if (unitData == null) return;
+			UpdateCooltimeTick();
+			UpdateKnockbackRemainedTime();
 
 			if (IsKnockBack || isEnemyDead) return;
 
+			if (isTowerUnit)
+			{
+				OnUpdateTowerUnit();
+			}
+			else
+			{
+				OnUpdateInfantry();
+			}
+		}
+
+		/// <summary>
+		/// Update logics for walking/chasing on the ground
+		/// </summary>
+		public void OnUpdateInfantry()
+		{
 			CheckNearbyTarget();
 
 			if (isAttacking)
 			{
-				if (attackable.IsAbleToAttack())
-					attackable.StartAttackAnim();
+				if (IsAbleToAttack())
+					StartAttackAnim();
 			}
 			else if (isChasing)
 			{
@@ -102,15 +112,31 @@ namespace Defense.Controller
 			}
 		}
 
+		/// <summary>
+		/// Update logics for tower unit
+		/// </summary>
+		private void OnUpdateTowerUnit()
+		{
+			CheckNearbyTarget();
+
+			if (isAttacking)
+			{
+				if (IsAbleToAttack())
+					StartAttackAnim();
+			}
+		}
+
+		[Button(nameof(routeId), nameof(enemyId))]
 		public void InitEnemy(int routeId, int enemyId)
 		{
 			routeData = Managers.Resource.GetRouteData(routeId);
-			enemyData = Managers.Resource.GetEnemyData(enemyId);
-			CacheStatData(enemyData.StatsByLevel[0]);
+			unitData = Managers.Resource.GetEnemyData(enemyId);
+			CacheStatData(unitData.StatsByLevel[0]);
 
-			targets = new Collider[enemyData.MaxDetectCounts];
+			targets = new Collider[unitData.MaxDetectCounts];
 			waypoints = routeData.Waypoints;
 
+			if (isTowerUnit) return;
 			GetRandomStartPosition();
 			targetPosition = waypoints[currentWaypointIndex + 1] + widthOffset * Calculation.GetConsistentBisector(
 				-(waypoints[currentWaypointIndex + 1] - waypoints[currentWaypointIndex]),
@@ -129,7 +155,7 @@ namespace Defense.Controller
 		private int targetCounts = 0;
 		private void CheckNearbyTarget()
 		{
-			targetCounts = Physics.OverlapSphereNonAlloc(transform.position, enemyData.SearchRange, targets, enemyData.TargetLayer);
+			targetCounts = Physics.OverlapSphereNonAlloc(transform.position, unitData.SearchRange, targets, unitData.TargetLayer);
 			if (targetCounts > 0)
 			{
 				float minDistance = float.MaxValue;
@@ -137,7 +163,9 @@ namespace Defense.Controller
 
 				for (int i = 0; i < targetCounts; i++)
 				{
-					if (targets[i] == null) break;
+					if (targets[i] == null) break; 
+					if (targets[i].GetComponent<IDamagable>() == null ||
+					!targets[i].GetComponent<IDamagable>().IsAbleToTargeted()) continue;
 					float distance = Vector3.SqrMagnitude(transform.position - targets[i].transform.position);
 					if (distance < minDistance)
 					{
@@ -157,7 +185,7 @@ namespace Defense.Controller
 				isAttacking = false;
 			}
 
-			if (targetTransform != null && Vector3.SqrMagnitude(transform.position- targetTransform.position) <= enemyData.AttackRange* enemyData.AttackRange)
+			if (targetTransform != null && Vector3.SqrMagnitude(transform.position- targetTransform.position) <= unitData.AttackRange* unitData.AttackRange)
 			{
 				isAttacking = true;
 				isChasing = false;
@@ -171,8 +199,8 @@ namespace Defense.Controller
 			dir = waypoints[currentWaypointIndex + 1] - waypoints[currentWaypointIndex];
 			targetRotation = Quaternion.LookRotation(targetPosition - myTransform.position);
 
-			myTransform.rotation = Quaternion.Lerp(myTransform.rotation, targetRotation, enemyData.RotationSpeed * Time.deltaTime);
-			myTransform.position = Vector3.MoveTowards(myTransform.position, targetPosition, enemyData.MoveSpeed* Time.deltaTime);
+			myTransform.rotation = Quaternion.Lerp(myTransform.rotation, targetRotation, unitData.RotationSpeed * Time.deltaTime);
+			myTransform.position = Vector3.MoveTowards(myTransform.position, targetPosition, unitData.MoveSpeed* Time.deltaTime);
 
 			if (Vector3.Dot(dir, targetPosition - myTransform.position) < Mathf.Epsilon)
 			{
@@ -200,8 +228,8 @@ namespace Defense.Controller
 			dir.y = 0;
 
 			Quaternion targetRotation = Quaternion.LookRotation(dir);
-			myTransform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, enemyData.RotationSpeed* Time.deltaTime);
-			myTransform.position = Vector3.MoveTowards(transform.position, targetTransform.position, enemyData.MoveSpeed * Time.deltaTime);
+			myTransform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, unitData.RotationSpeed* Time.deltaTime);
+			myTransform.position = Vector3.MoveTowards(transform.position, targetTransform.position, unitData.MoveSpeed * Time.deltaTime);
 
 			GetComponent<Animator>().SetFloat(animIDSpeed, (targetTransform.position - myTransform.position).AbsSum());
 		}
@@ -219,17 +247,17 @@ namespace Defense.Controller
 		/** Animation Events **/
 		public void OnAttack()
 		{
-			attackable.Attack(targetTransform);
+			Attack(targetTransform);
 		}
 
 		private void OnDrawGizmos()
 		{
-			if (enemyData == null) return;
+			if (unitData == null) return;
 
 			Gizmos.color = Color.red;
-			Gizmos.DrawWireSphere(transform.position, enemyData.SearchRange);
+			Gizmos.DrawWireSphere(transform.position, unitData.SearchRange);
 			Gizmos.color = Color.blue;
-			Gizmos.DrawWireSphere(transform.position, enemyData.AttackRange);
+			Gizmos.DrawWireSphere(transform.position, unitData.AttackRange);
 		}
 
 	}

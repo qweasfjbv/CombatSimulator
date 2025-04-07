@@ -4,11 +4,13 @@ using UnityEngine;
 
 namespace Defense.Controller
 {
-	public class MagicTowerUnit : TowerUnitController
+	public class MagicUnit : UnitController
 	{
 		public override void Attack(Transform target)
 		{
-			target.GetComponent<IDamagable>().GetImmediateDamage(towerData.DamageType, 1f);
+			if (target == null || target.GetComponent<IDamagable>() == null) return;
+
+			target.GetComponent<IDamagable>().GetImmediateDamage(unitData.DamageType, unitData.StatsByLevel[0].AttackPower);
 			PoolingManager.Instance.SpawnParticle(Utils.ParticleType.Lightning, target.position);
 		}
 	}

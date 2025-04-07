@@ -3,14 +3,13 @@ using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
 using System.Threading;
 using System;
-using Defense.Interfaces;
 using UnityEngine;
 using Defense.Manager;
-using Unity.VisualScripting;
+using Defense.Interfaces;
 
 namespace Defense.Controller
 {
-	public partial class EnemyController
+	public partial class UnitController
 	{
 		private float currentHP = 0f;
 		private float currentAtk = 0f;
@@ -37,11 +36,13 @@ namespace Defense.Controller
 			animator.SetBool(animIDDeath, false);
 		}
 
-		bool IAttackable.IsAbleToAttack()
+
+		/** IAttackable Interface **/
+		public bool IsAbleToAttack()
 		{
 			return currentAttackCooltime < 0f;
 		}
-		void IAttackable.StartAttackAnim()
+		public void StartAttackAnim()
 		{
 			if (targetTransform == null)
 			{
@@ -52,30 +53,30 @@ namespace Defense.Controller
 
 			animator.SetFloat(animIDSpeed, 0);
 			animator.SetTrigger(animIDAttack);
-			animator.SetFloat(animIDAttackMT, attackClipLength / enemyData.AttackCooltime);
+			animator.SetFloat(animIDAttackMT, attackClipLength / unitData.AttackCooltime);
 
-			currentAttackCooltime = enemyData.AttackCooltime;
+			currentAttackCooltime = unitData.AttackCooltime;
 		}
-		void IAttackable.Attack(Transform target)
-		{
-			// TODO - Attack 로직 필요
-		}
-
-		void IAttackable.UpdateCooltimeTick()
+		/// <summary>
+		/// 자식 클래스에서 Detail 구현
+		/// </summary>
+		public abstract void Attack(Transform target);
+		public void UpdateCooltimeTick()
 		{
 			if (currentAttackCooltime >= 0f)
 				currentAttackCooltime -= Time.deltaTime;
 		}
 
-		bool IDamagable.IsAbleToTargeted()
+		/** IDamagable Interface **/
+		public bool IsAbleToTargeted()
 		{
 			return afterHP > 0f;
 		}
-		void IDamagable.ReserveDamage(DamageType type, float damage, float duration)
+		public void ReserveDamage(DamageType type, float damage, float duration)
 		{
 			if (isEnemyDead) return;
 
-			float trueDamage = Calculation.CalculateDamage(enemyData.StatsByLevel[0], type, damage);
+			float trueDamage = Calculation.CalculateDamage(unitData.StatsByLevel[0], type, damage);
 			afterHP -= trueDamage;
 
 			var cts = new CancellationTokenSource();
@@ -95,7 +96,7 @@ namespace Defense.Controller
 				await UniTask.Delay((int)(duration * 1000));
 
 				if (!ct.IsCancellationRequested)
-					damagable.GetDelayedDamage(type, damage);
+					GetDelayedDamage(type, damage);
 			}
 			catch (OperationCanceledException)
 			{
@@ -106,30 +107,29 @@ namespace Defense.Controller
 				reservedDamage.Remove(damageId);
 			}
 		}
-
-		void IDamagable.GetDelayedDamage(DamageType type, float trueDamage)
+		public void GetDelayedDamage(DamageType type, float trueDamage)
 		{
 			if (isEnemyDead) return;
 
 			currentHP -= trueDamage; 
 
 			UIManager.Instance.GameUI.ShowDamage(transform.position + Vector3.up * 1.8f, trueDamage, type, HitResultType.Normal);
-			damagable.CheckIfDied();
+			CheckIfDied();
 			ApplyKnockback();
 		}
-		void IDamagable.GetImmediateDamage(DamageType type, float damage)
+		public void GetImmediateDamage(DamageType type, float damage)
 		{
 			if (isEnemyDead) return;
 
-			float trueDamage = Calculation.CalculateDamage(enemyData.StatsByLevel[0], type, damage);
+			float trueDamage = Calculation.CalculateDamage(unitData.StatsByLevel[0], type, damage);
 			afterHP -= trueDamage;
 			currentHP -= trueDamage;
 
 			UIManager.Instance.GameUI.ShowDamage(transform.position + Vector3.up * 1.8f, trueDamage, type, HitResultType.Normal);
-			damagable.CheckIfDied();
+			CheckIfDied();
 			ApplyKnockback();
 		}
-		void IDamagable.CheckIfDied()
+		public void CheckIfDied()
 		{
 			if (currentHP <= 0f)
 			{
@@ -137,17 +137,18 @@ namespace Defense.Controller
 			}
 		}
 
+		/** Dying System **/
 		private void OnDead()
 		{
 			if (isEnemyDead) return;
 			isEnemyDead = true;
 			animator.SetFloat(animIDSpeed, 0f);
-			animator.SetFloat(animIDDeathMT, deathClipLength / enemyData.DeathAnimDuration);
+			animator.SetFloat(animIDDeathMT, deathClipLength / unitData.DeathAnimDuration);
 			animator.SetBool(animIDDeath, true);
 
 			GetComponent<Outline>().OffOutline();
 
-			DelayedDestroy(enemyData.DeathAnimDuration, enemyData.FadeOutDuration).Forget();
+			DelayedDestroy(unitData.DeathAnimDuration, unitData.FadeOutDuration).Forget();
 		}
 		public async UniTask DelayedDestroy(float deathDuration, float fadeDuration)
 		{
@@ -164,18 +165,19 @@ namespace Defense.Controller
 			}
 		}
 
-		private bool IsKnockBack { get => enemyData.UseKnockback && knockbackRemainedTime > Mathf.Epsilon; }
+		/** Knockback System **/
+		private bool IsKnockBack { get => unitData.UseKnockback && knockbackRemainedTime > Mathf.Epsilon; }
 		private float knockbackRemainedTime = 0f;
 		private void ApplyKnockback()
 		{
-			knockbackRemainedTime = enemyData.KnockbackDuration;
+			knockbackRemainedTime = unitData.KnockbackDuration;
 
 			animator.SetFloat(animIDSpeed, 0f);
 			animator.SetFloat(animIDDamagedMT, damagedClipLength / knockbackRemainedTime);
 			animator.SetTrigger(animIDDamaged);
 			PoolingManager.Instance.SpawnParticle(ParticleType.Hit, myTransform.position);
 		}
-		private void OnUpdateKnockbackRemainedTime()
+		private void UpdateKnockbackRemainedTime()
 		{
 			if (IsKnockBack)
 				knockbackRemainedTime -= Time.deltaTime;

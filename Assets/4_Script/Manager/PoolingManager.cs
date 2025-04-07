@@ -6,12 +6,10 @@ using UnityEngine;
 
 namespace Defense.Manager
 {
-
 	public class PoolingManager : MonoBehaviour
 	{
 		private static PoolingManager s_instance;
 		public static PoolingManager Instance { get { return s_instance; } }
-
 
 		[SerializeField] private List<ParticleEntry> particleEntries = new();
 		[SerializeField] private List<ProjectileEntry> projectileEntries = new();

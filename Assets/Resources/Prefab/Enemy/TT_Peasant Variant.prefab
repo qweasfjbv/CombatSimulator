@@ -57,11 +57,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c041548ad5f52014d8ae27de23cf2764, type: 3}
---- !u!198 &8443206103763147269 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 6837061768053742934, guid: c041548ad5f52014d8ae27de23cf2764, type: 3}
-  m_PrefabInstance: {fileID: 3156553037922240339}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8443206103763147271 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6837061768053742932, guid: c041548ad5f52014d8ae27de23cf2764, type: 3}
@@ -372,13 +367,13 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 155500, guid: 53eb1e18130e9be4387a785b482187e1, type: 3}
       insertIndex: -1
-      addedObject: {fileID: -5082483201768423616}
-    - targetCorrespondingSourceObject: {fileID: 155500, guid: 53eb1e18130e9be4387a785b482187e1, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 5121811104057878676}
     - targetCorrespondingSourceObject: {fileID: 155500, guid: 53eb1e18130e9be4387a785b482187e1, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5899354947211777739}
+    - targetCorrespondingSourceObject: {fileID: 155500, guid: 53eb1e18130e9be4387a785b482187e1, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 667302568428028482}
   m_SourcePrefab: {fileID: 100100000, guid: 53eb1e18130e9be4387a785b482187e1, type: 3}
 --- !u!4 &8979238051204822455 stripped
 Transform:
@@ -390,19 +385,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 155500, guid: 53eb1e18130e9be4387a785b482187e1, type: 3}
   m_PrefabInstance: {fileID: 8979238051204941871}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &-5082483201768423616
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8979238051205060419}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 86ca0682733a2564092517009efd3835, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hitParticle: {fileID: 8443206103763147269}
 --- !u!65 &5121811104057878676
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -441,3 +423,16 @@ MonoBehaviour:
   bakeValues: []
   outlineMaskMaterial: {fileID: 2100000, guid: 106f3ff43a17d4967a2b64c7a92e49ec, type: 2}
   outlineFillMaterial: {fileID: 2100000, guid: 998cbfe8e6f896a4b87717272f110777, type: 2}
+--- !u!114 &667302568428028482
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8979238051205060419}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f852a3e18d3bf444aa745898a156fba6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isTowerUnit: 0

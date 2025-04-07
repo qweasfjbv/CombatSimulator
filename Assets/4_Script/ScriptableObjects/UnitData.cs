@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Defense
 {
 	[CreateAssetMenu(fileName = "EnemyData", menuName = "GameData/Enemy Data")]
-	public class EnemyData : ScriptableObject
+	public class UnitData : ScriptableObject
 	{
 		[Header("Movement")]
 		[SerializeField] private float _moveSpeed;
@@ -15,6 +15,7 @@ namespace Defense
 		[SerializeField] private float _searchRange;
 		[SerializeField] private float _attackRange;
 		[SerializeField] private float _attackCooltime;
+		[SerializeField] private float _attackDelay;
 
 		[Header("Knockback")]
 		[SerializeField] private bool _useKnockback;
@@ -34,9 +35,11 @@ namespace Defense
 		// ReadOnly Properties
 		public float MoveSpeed => _moveSpeed;
 		public float RotationSpeed => _rotationSpeed;
+		public DamageType DamageType => _damageType;
 		public float SearchRange => _searchRange;
 		public float AttackRange => _attackRange;
 		public float AttackCooltime => _attackCooltime;
+		public float AttackDelay => _attackDelay;
 		public bool UseKnockback => _useKnockback;
 		public float KnockbackDuration => _knockbackDuration;
 		public LayerMask TargetLayer => _targetLayer;

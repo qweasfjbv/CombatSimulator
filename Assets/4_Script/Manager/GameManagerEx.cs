@@ -60,9 +60,7 @@ namespace Defense.Manager
 			for (int i = 5; i < 6; i++)
 			{
 				TowerController tc = Instantiate(towerPrefab1, new Vector3(5, 0, 5 * (i+1)), Quaternion.identity).GetComponent<TowerController>();
-				tc.InitTower(0);
 				tc = Instantiate(towerPrefab2, new Vector3(-5, 0, 5 * (i+1)), Quaternion.identity).GetComponent<TowerController>();
-				tc.InitTower(1);
 			}
 		}
 
@@ -80,7 +78,7 @@ namespace Defense.Manager
 			for (int i = 0; i < testCount; i++)
 			{
 				GameObject go = Instantiate(personPrefab, Managers.Resource.GetRouteData(0).SpawnPoint, Quaternion.identity);
-				go.GetComponent<EnemyController>().InitEnemy(0, 0);
+				go.GetComponent<UnitController>().InitEnemy(0, 0);
 				yield return new WaitForSeconds(0.01f);
 			}
 		}

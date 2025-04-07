@@ -19,27 +19,29 @@ namespace Defense.Utils
 	[System.Serializable]
 	public class ParticleEntry
 	{
-		public ParticleType Key;
+		[HideInInspector] public Queue<ParticleSystem> Pool = new();
+
 		public GameObject Prefab;
 		public int PoolSize;
+		public ParticleType Key;
 
-		[HideInInspector] public Queue<ParticleSystem> Pool = new();
 	}
 
 	[System.Serializable]
 	public class ProjectileEntry
 	{
-		public ProjectileType Key;
+		[HideInInspector] public Queue<GameObject> Pool = new();
+
 		public GameObject Prefab;
 		public int PoolSize;
+		public ProjectileType Key;
 
-		[HideInInspector] public Queue<GameObject> Pool = new();
 	}
 
 	public struct HitResult
 	{
-		public HitResultType ResultType;
 		public float FinalDamage;
+		public HitResultType ResultType;
 		public DamageType DamageType;
 
 		public HitResult(HitResultType resultType, float finalDamage, DamageType damageType)

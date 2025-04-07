@@ -9,81 +9,102 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 224d0b79f3eaa7245af0d5fd8747ff44, type: 3}
-  m_Name: 0_EnemyData
+  m_Script: {fileID: 11500000, guid: fdc70bb699fd6454192bfd6676edd02e, type: 3}
+  m_Name: 1_Archer
   m_EditorClassIdentifier: 
-  _moveSpeed: 2
+  _moveSpeed: 1
   _rotationSpeed: 10
   _damageType: 0
-  _searchRange: 7
-  _attackRange: 3
-  _attackCooltime: 1
+  _searchRange: 10
+  _attackRange: 10
+  _attackCooltime: 0.1
+  _attackDelay: 3
   _useKnockback: 1
   _knockbackDuration: 0.3
   _targetLayer:
     serializedVersion: 2
-    m_Bits: 2048
+    m_Bits: 1024
   _maxDetectCounts: 10
-  _deathAnimDuration: 0.8
+  _deathAnimDuration: 0.5
   _fadeOutDuration: 0.5
   _statsByLevel:
-  - MaxHealth: 10000
-    AttackPower: 1
-    DefensePower: 1
+  - MaxHealth: 100
+    AttackPower: 10
+    DefensePower: 2
+    CritProb: 0
   - MaxHealth: 0
     AttackPower: 0
     DefensePower: 0
+    CritProb: 0
   - MaxHealth: 0
     AttackPower: 0
     DefensePower: 0
+    CritProb: 0
   - MaxHealth: 0
     AttackPower: 0
     DefensePower: 0
+    CritProb: 0
   - MaxHealth: 0
     AttackPower: 0
     DefensePower: 0
+    CritProb: 0
   - MaxHealth: 0
     AttackPower: 0
     DefensePower: 0
+    CritProb: 0
   - MaxHealth: 0
     AttackPower: 0
     DefensePower: 0
+    CritProb: 0
   - MaxHealth: 0
     AttackPower: 0
     DefensePower: 0
+    CritProb: 0
   - MaxHealth: 0
     AttackPower: 0
     DefensePower: 0
+    CritProb: 0
   - MaxHealth: 0
     AttackPower: 0
     DefensePower: 0
+    CritProb: 0
   - MaxHealth: 0
     AttackPower: 0
     DefensePower: 0
+    CritProb: 0
   - MaxHealth: 0
     AttackPower: 0
     DefensePower: 0
+    CritProb: 0
   - MaxHealth: 0
     AttackPower: 0
     DefensePower: 0
+    CritProb: 0
   - MaxHealth: 0
     AttackPower: 0
     DefensePower: 0
+    CritProb: 0
   - MaxHealth: 0
     AttackPower: 0
     DefensePower: 0
+    CritProb: 0
   - MaxHealth: 0
     AttackPower: 0
     DefensePower: 0
+    CritProb: 0
   - MaxHealth: 0
     AttackPower: 0
     DefensePower: 0
+    CritProb: 0
   - MaxHealth: 0
     AttackPower: 0
     DefensePower: 0
+    CritProb: 0
   - MaxHealth: 0
     AttackPower: 0
     DefensePower: 0
+    CritProb: 0
   - MaxHealth: 0
     AttackPower: 0
     DefensePower: 0
+    CritProb: 0

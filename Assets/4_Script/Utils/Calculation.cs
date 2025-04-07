@@ -1,4 +1,4 @@
-using Unity.VisualScripting;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 namespace Defense.Utils
@@ -8,10 +8,11 @@ namespace Defense.Utils
 		/// <summary>
 		/// defense, damage, type 을 통해 줄어들 HP를 계산합니다.
 		/// </summary>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static float CalculateDamage(LevelStat stat , DamageType type, float damage)
 		{
-			return -1f;
-			return damage * (1 - (stat.DefensePower / (100 + stat.DefensePower)));
+			float calculatedDamage = damage * (1 - (stat.DefensePower / (100 + stat.DefensePower)));
+			return calculatedDamage < 0 ? 0 : calculatedDamage;
 		}
 
 		public static Vector3 GetConsistentBisector(Vector3 dir1, Vector3 dir2)
