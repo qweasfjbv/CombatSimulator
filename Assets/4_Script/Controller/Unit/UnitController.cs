@@ -34,6 +34,7 @@ namespace Defense.Controller
 		private float attackClipLength = 0f;
 		private float damagedClipLength = 0f;
 		private float deathClipLength = 0f;
+		private float skillClipLength = 0f;
 
 		private int animIDAttack = 0;
 		private int animIDAttackMT = 0;
@@ -42,6 +43,8 @@ namespace Defense.Controller
 		private int animIDSpeed = 0;
 		private int animIDDamaged = 0;
 		private int animIDDeath = 0;
+		private int animIDSkill = 0;
+		private int animIDSkillMT = 0;
 
 		/** State Variables **/
 		private float currentAttackCooltime = 0f;
@@ -58,6 +61,7 @@ namespace Defense.Controller
 			attackClipLength = animator.GetAnimationClipLength(Constants.ANIM_NAME_ATTACK);
 			damagedClipLength = animator.GetAnimationClipLength(Constants.ANIM_NAME_DAMAGE);
 			deathClipLength = animator.GetAnimationClipLength(Constants.ANIM_NAME_DEATH);
+			skillClipLength = animator.GetAnimationClipLength(Constants.ANIM_NAME_SKILL);
 
 			animIDAttack = Animator.StringToHash(Constants.ANIM_PARAM_ATTACK);
 			animIDAttackMT = Animator.StringToHash(Constants.ANIM_PARAM_ATTACK_MT);
@@ -66,7 +70,10 @@ namespace Defense.Controller
 			animIDSpeed = Animator.StringToHash(Constants.ANIM_PARAM_SPEED);
 			animIDDamaged = Animator.StringToHash(Constants.ANIM_PARAM_DAMAGED);
 			animIDDeath = Animator.StringToHash(Constants.ANIM_PARAM_DIED);
+			animIDSkill = Animator.StringToHash(Constants.ANIM_PARAM_SKILL);
+			animIDSkillMT = Animator.StringToHash(Constants.ANIM_PARAM_SKILL_MT);
 		}
+
 
 		[Header("DEBUG")]
 		public bool isTowerUnit = false;
@@ -101,7 +108,16 @@ namespace Defense.Controller
 			if (isAttacking)
 			{
 				if (IsAbleToAttack())
-					StartAttackAnim();
+				{
+					if (IsAbleToUseSkill())
+					{
+						StartSkillAnim();
+					}
+					else
+					{
+						StartAttackAnim();
+					}
+				}
 			}
 			else if (isChasing)
 			{
@@ -123,7 +139,16 @@ namespace Defense.Controller
 			if (isAttacking)
 			{
 				if (IsAbleToAttack())
-					StartAttackAnim();
+				{
+					if (IsAbleToUseSkill())
+					{
+						StartSkillAnim();
+					}
+					else
+					{
+						StartAttackAnim();
+					}
+				}
 			}
 		}
 
@@ -216,7 +241,6 @@ namespace Defense.Controller
 
 			GetComponent<Animator>().SetFloat(animIDSpeed, (targetPosition - myTransform.position).AbsSum());
 		}
-
 		private void ChaseTarget()
 		{
 			if (targetTransform == null)
@@ -249,7 +273,35 @@ namespace Defense.Controller
 		public void OnAttack()
 		{
 			Attack(targetTransform);
+			// HACK
+			currentMP += 30f;
 		}
+		public void OnSkill()
+		{
+			ExecuteSkill(targetTransform);
+		}
+
+		private void StartSkillAnim()
+		{
+			if (targetTransform == null)
+			{
+				isAttacking = false;
+				isChasing = false;
+				return;
+			}
+
+			animator.SetFloat(animIDSpeed, 0);
+			animator.SetTrigger(animIDSkill);
+			animator.SetFloat(animIDSkillMT, skillClipLength / unitData.SkillDuration);
+			currentMP = 0;
+			currentAttackCooltime = unitData.SkillDuration;
+		}
+		private bool IsAbleToUseSkill()
+		{
+			// HACK - 특정 레벨 이상에만 열림
+			return currentMP >= 10f;
+		}
+		protected abstract void ExecuteSkill(Transform target);
 
 		private void OnDrawGizmos()
 		{

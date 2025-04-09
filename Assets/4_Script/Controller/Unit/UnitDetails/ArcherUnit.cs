@@ -14,5 +14,11 @@ namespace Defense.Controller
 			ArrowController ac = PoolingManager.Instance.Spawn(Utils.ProjectileType.Arrow, unitData.AttackDelay + 2 * Time.deltaTime).GetComponent<ArrowController>();
 			ac.ShootArrow(transform.position, target, 6f, unitData.AttackDelay).Forget();
 		}
+
+		protected override void ExecuteSkill(Transform target)
+		{
+
+		}
+
 	}
 }

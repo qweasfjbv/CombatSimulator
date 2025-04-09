@@ -93,10 +93,10 @@ namespace Defense.Manager
 		}
 
 
-		[Button()]
+		[Button]
 		private void StartTest()
 		{
-			GetComponent<WaypointsDrawer>().DrawWaypoints(Managers.Resource.GetRouteData(0).Waypoints);
+			//GetComponent<WaypointsDrawer>().DrawWaypoints(Managers.Resource.GetRouteData(0).Waypoints);
 			StartCoroutine(SpawnCoroutine());
 		}
 

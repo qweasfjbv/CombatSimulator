@@ -27,6 +27,7 @@ MonoBehaviour:
   _maxDetectCounts: 10
   _deathAnimDuration: 0.5
   _fadeOutDuration: 0.5
+  _skillDuration: 1
   _statsByLevel:
   - MaxHealth: 100
     AttackPower: 10

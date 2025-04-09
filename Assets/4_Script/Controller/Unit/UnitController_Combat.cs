@@ -14,6 +14,7 @@ namespace Defense.Controller
 		private float currentHP = 0f;
 		private float currentAtk = 0f;
 		private float currentDef = 0f;
+		private float currentMP = 0f;
 
 		private float afterHP = 0f;
 		
@@ -34,6 +35,7 @@ namespace Defense.Controller
 		{
 			isEnemyDead = false;
 			animator.SetBool(animIDDeath, false);
+			currentMP = 0f;
 		}
 
 

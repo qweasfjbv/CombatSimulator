@@ -1,6 +1,5 @@
 using Cysharp.Threading.Tasks;
 using Defense.Utils;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 
 namespace Defense.Controller
@@ -15,10 +14,10 @@ namespace Defense.Controller
 			transform.position = startPoint;
 			trail.Clear();
 			trail.emitting = true;
+
 			float time = 0f;
 			Vector3 start = transform.position;
 			Vector3 end = target.position;
-			trail.ResetBounds();
 
 			while (time < duration)
 			{

@@ -3449,6 +3449,9 @@ MonoBehaviour:
   isTowerUnit: 1
   routeId: 0
   enemyId: 2
+  hoverHeight: 1
+  hoverDuration: 0.2
+  moveDuration: 0.2
 --- !u!114 &-8397567738424838981
 MonoBehaviour:
   m_ObjectHideFlags: 0

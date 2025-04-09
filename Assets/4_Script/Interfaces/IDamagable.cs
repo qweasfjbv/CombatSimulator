@@ -1,4 +1,4 @@
-﻿using Defense.Utils;
+using Defense.Utils;
 
 namespace Defense.Interfaces
 {

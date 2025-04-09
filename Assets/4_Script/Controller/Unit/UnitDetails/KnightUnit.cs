@@ -8,5 +8,11 @@ namespace Defense.Controller
 		{
 
 		}
+
+		protected override void ExecuteSkill(Transform target)
+		{
+
+		}
+
 	}
 }

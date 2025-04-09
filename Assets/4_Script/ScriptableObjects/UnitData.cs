@@ -28,6 +28,7 @@ namespace Defense
 		[Header("Durations")]
 		[SerializeField] private float _deathAnimDuration;
 		[SerializeField] private float _fadeOutDuration;
+		[SerializeField] private float _skillDuration;
 
 		[Header("Stats")]
 		[SerializeField] private LevelStat[] _statsByLevel = new LevelStat[Constants.ENEMY_LEVEL_MAX];
@@ -46,6 +47,7 @@ namespace Defense
 		public int MaxDetectCounts => _maxDetectCounts;
 		public float DeathAnimDuration => _deathAnimDuration;
 		public float FadeOutDuration => _fadeOutDuration;
+		public float SkillDuration => _skillDuration;
 		public LevelStat[] StatsByLevel => _statsByLevel;
 	}
 }
