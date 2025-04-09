@@ -17,8 +17,8 @@ MonoBehaviour:
   _damageType: 0
   _searchRange: 10
   _attackRange: 10
-  _attackCooltime: 0.1
-  _attackDelay: 3
+  _attackCooltime: 0.2
+  _attackDelay: 0.3
   _useKnockback: 1
   _knockbackDuration: 0.3
   _targetLayer:

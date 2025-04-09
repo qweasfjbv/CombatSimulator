@@ -9,9 +9,11 @@ namespace Defense.Manager
 
 		/** Managers **/
 		private ResourceManager _resource = new ResourceManager();
+		private InputManager _input = new InputManager();
 
 		/** Properties **/
 		public static ResourceManager Resource { get { return Instance._resource; } }
+		public static InputManager Input { get { return Instance._input; } }
 
 		public void Init()
 		{
@@ -27,13 +29,18 @@ namespace Defense.Manager
 			}
 
 			s_instance._resource.Init();
+			s_instance._input.Init();
 		}
 
 
-		void Awake()
+		private void Awake()
 		{
 			Init();
 		}
 
+		private void Update()
+		{
+			s_instance._input.OnUpdate();
+		}
 	}
 }

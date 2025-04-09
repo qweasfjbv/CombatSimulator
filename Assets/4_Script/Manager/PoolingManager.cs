@@ -1,8 +1,11 @@
 using Cysharp.Threading.Tasks;
+using Defense.Debugger;
 using Defense.Utils;
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace Defense.Manager
 {
@@ -14,13 +17,20 @@ namespace Defense.Manager
 		[SerializeField] private List<ParticleEntry> particleEntries = new();
 		[SerializeField] private List<ProjectileEntry> projectileEntries = new();
 
+		[SerializeField] private GameObject dottedLinePrefab;
+
 		private Dictionary<ParticleType, ParticleEntry> particleDict = new();
 		private Dictionary<ProjectileType, ProjectileEntry> projectileDict = new();
+
+		private DottedLineRenderer dottedLineRenderer;
 
 		private void Awake()
 		{
 			Init();
 			InitPool();
+
+			dottedLineRenderer = Instantiate(dottedLinePrefab).GetComponent<DottedLineRenderer>();
+			dottedLineRenderer.gameObject.SetActive(false);
 		}
 
 		public void Init()
@@ -126,6 +136,26 @@ namespace Defense.Manager
 
 			return obj;
 		}
+		public GameObject Spawn(ProjectileType type, float autoReturnTime = -1f)
+		{
+			if (!projectileDict.ContainsKey(type))
+			{
+				Debug.LogWarning($"[PoolingManager] Pool for {type} doesn't exist!");
+				return null;
+			}
+
+			GameObject obj = projectileDict[type].Pool.Count > 0 ?
+				projectileDict[type].Pool.Dequeue() : Instantiate(projectileDict[type].Prefab, transform);
+
+			obj.SetActive(true);
+
+			if (autoReturnTime > 0)
+			{
+				AutoReturnAfterDelay(type, obj, autoReturnTime).Forget();
+			}
+
+			return obj;
+		}
 
 		public void Return(ProjectileType type, GameObject obj)
 		{
@@ -135,11 +165,32 @@ namespace Defense.Manager
 
 		private async UniTaskVoid AutoReturnAfterDelay(ProjectileType type, GameObject obj, float delay)
 		{
-			await UniTask.Delay(TimeSpan.FromSeconds(delay), cancellationToken: this.GetCancellationTokenOnDestroy());
+			float elapsed = 0f;
+
+			while (elapsed < delay)
+			{
+				await UniTask.Yield(PlayerLoopTiming.Update, this.GetCancellationTokenOnDestroy());
+
+				if (obj == null) return;
+
+				elapsed += Time.deltaTime;
+			}
+
 			if (obj != null && obj.activeInHierarchy)
 			{
 				Return(type, obj);
 			}
+
+		}
+
+		public void SetDottedLine(Vector3 start, Vector3 end)
+		{
+			dottedLineRenderer.gameObject.SetActive(true);
+			dottedLineRenderer.DrawDottedLine(start, end);
+		}
+		public void UnsetDottedLine()
+		{
+			dottedLineRenderer.gameObject.SetActive(false);
 		}
 	}
 }

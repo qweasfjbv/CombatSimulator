@@ -6,8 +6,6 @@ namespace Defense.Controller
 	[RequireComponent(typeof(Camera))]
     public class CameraController : MonoBehaviour
     {
-		private PlayerControl control;
-
 
 		[Header("Camera Settings")]
 		[SerializeField] private float cameraBoomLength;
@@ -23,8 +21,6 @@ namespace Defense.Controller
 
 		private void Awake()
 		{
-			control = new();
-			control.Enable();
 
 		}
 
@@ -50,7 +46,6 @@ namespace Defense.Controller
 		private void Update()
 		{
 			CalcVariables();
-			GetInputs();
 			SetCameraTransform();
 		}
 
@@ -65,25 +60,26 @@ namespace Defense.Controller
 			currentSize = Mathf.Lerp(currentSize, targetSize, deltaTime);
 		}
 
-		private void GetInputs()
+		public void SetInputs(bool isLeftPressed, bool isRightPressed, bool initPressed,
+			Vector2 mouseDelta, float scrollDelta)
 		{
-			mouseDelta = control.Camera.MouseMove.ReadValue<Vector2>();
 			mouseDelta.y = -mouseDelta.y;
+			this.mouseDelta = mouseDelta;
 
-			scrollDelta = control.Camera.Scroll.ReadValue<float>();
+			this.scrollDelta = scrollDelta;
 
-			if (control.Camera.RightClick.IsPressed())
+			if (isRightPressed)
 			{
 				Vector2 tmpV = (forwardVector * mouseDelta.x + -rightVector * mouseDelta.y);
 				targetLookatPosition += new Vector3(tmpV.x, 0, tmpV.y) * moveSpeed * deltaTime;
 			}
-			if (control.Camera.LeftClick.IsPressed())
+			if (isLeftPressed)
 			{
 				sphericalAngles += mouseDelta * rotSpeed * deltaTime;
 				if (sphericalAngles.x >= 360) sphericalAngles.x -= 360;
 				sphericalAngles.y = Mathf.Clamp(sphericalAngles.y, 30f, 89.9f);
 			}
-			if (control.Camera.Init.WasPressedThisFrame())
+			if (initPressed)
 			{
 				targetLookatPosition = Vector3.zero;
 				sphericalAngles = new Vector2(-45f, 45f);

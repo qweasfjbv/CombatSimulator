@@ -1,4 +1,4 @@
-﻿using Defense.Controller;
+using Defense.Controller;
 using Defense.Utils;
 using UnityEngine;
 

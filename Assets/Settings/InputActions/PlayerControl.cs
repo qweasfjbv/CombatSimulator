@@ -134,11 +134,11 @@ namespace Defense.InputActions
             ]
         },
         {
-            ""name"": ""New action map1"",
+            ""name"": ""Game"",
             ""id"": ""9b4e9571-228c-4244-bc9a-358dccc6f3a8"",
             ""actions"": [
                 {
-                    ""name"": ""New action"",
+                    ""name"": ""LeftClick"",
                     ""type"": ""Button"",
                     ""id"": ""01d80ecc-dc5d-4c8b-81d8-5112e5447794"",
                     ""expectedControlType"": """",
@@ -151,11 +151,11 @@ namespace Defense.InputActions
                 {
                     ""name"": """",
                     ""id"": ""b9f11161-3d3b-4099-9e1f-281cc2c70b2d"",
-                    ""path"": """",
+                    ""path"": ""<Mouse>/leftButton"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""New action"",
+                    ""action"": ""LeftClick"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -171,15 +171,15 @@ namespace Defense.InputActions
             m_Camera_RightClick = m_Camera.FindAction("RightClick", throwIfNotFound: true);
             m_Camera_Scroll = m_Camera.FindAction("Scroll", throwIfNotFound: true);
             m_Camera_Init = m_Camera.FindAction("Init", throwIfNotFound: true);
-            // New action map1
-            m_Newactionmap1 = asset.FindActionMap("New action map1", throwIfNotFound: true);
-            m_Newactionmap1_Newaction = m_Newactionmap1.FindAction("New action", throwIfNotFound: true);
+            // Game
+            m_Game = asset.FindActionMap("Game", throwIfNotFound: true);
+            m_Game_LeftClick = m_Game.FindAction("LeftClick", throwIfNotFound: true);
         }
 
         ~@PlayerControl()
         {
             UnityEngine.Debug.Assert(!m_Camera.enabled, "This will cause a leak and performance issues, PlayerControl.Camera.Disable() has not been called.");
-            UnityEngine.Debug.Assert(!m_Newactionmap1.enabled, "This will cause a leak and performance issues, PlayerControl.Newactionmap1.Disable() has not been called.");
+            UnityEngine.Debug.Assert(!m_Game.enabled, "This will cause a leak and performance issues, PlayerControl.Game.Disable() has not been called.");
         }
 
         public void Dispose()
@@ -316,51 +316,51 @@ namespace Defense.InputActions
         }
         public CameraActions @Camera => new CameraActions(this);
 
-        // New action map1
-        private readonly InputActionMap m_Newactionmap1;
-        private List<INewactionmap1Actions> m_Newactionmap1ActionsCallbackInterfaces = new List<INewactionmap1Actions>();
-        private readonly InputAction m_Newactionmap1_Newaction;
-        public struct Newactionmap1Actions
+        // Game
+        private readonly InputActionMap m_Game;
+        private List<IGameActions> m_GameActionsCallbackInterfaces = new List<IGameActions>();
+        private readonly InputAction m_Game_LeftClick;
+        public struct GameActions
         {
             private @PlayerControl m_Wrapper;
-            public Newactionmap1Actions(@PlayerControl wrapper) { m_Wrapper = wrapper; }
-            public InputAction @Newaction => m_Wrapper.m_Newactionmap1_Newaction;
-            public InputActionMap Get() { return m_Wrapper.m_Newactionmap1; }
+            public GameActions(@PlayerControl wrapper) { m_Wrapper = wrapper; }
+            public InputAction @LeftClick => m_Wrapper.m_Game_LeftClick;
+            public InputActionMap Get() { return m_Wrapper.m_Game; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
             public bool enabled => Get().enabled;
-            public static implicit operator InputActionMap(Newactionmap1Actions set) { return set.Get(); }
-            public void AddCallbacks(INewactionmap1Actions instance)
+            public static implicit operator InputActionMap(GameActions set) { return set.Get(); }
+            public void AddCallbacks(IGameActions instance)
             {
-                if (instance == null || m_Wrapper.m_Newactionmap1ActionsCallbackInterfaces.Contains(instance)) return;
-                m_Wrapper.m_Newactionmap1ActionsCallbackInterfaces.Add(instance);
-                @Newaction.started += instance.OnNewaction;
-                @Newaction.performed += instance.OnNewaction;
-                @Newaction.canceled += instance.OnNewaction;
+                if (instance == null || m_Wrapper.m_GameActionsCallbackInterfaces.Contains(instance)) return;
+                m_Wrapper.m_GameActionsCallbackInterfaces.Add(instance);
+                @LeftClick.started += instance.OnLeftClick;
+                @LeftClick.performed += instance.OnLeftClick;
+                @LeftClick.canceled += instance.OnLeftClick;
             }
 
-            private void UnregisterCallbacks(INewactionmap1Actions instance)
+            private void UnregisterCallbacks(IGameActions instance)
             {
-                @Newaction.started -= instance.OnNewaction;
-                @Newaction.performed -= instance.OnNewaction;
-                @Newaction.canceled -= instance.OnNewaction;
+                @LeftClick.started -= instance.OnLeftClick;
+                @LeftClick.performed -= instance.OnLeftClick;
+                @LeftClick.canceled -= instance.OnLeftClick;
             }
 
-            public void RemoveCallbacks(INewactionmap1Actions instance)
+            public void RemoveCallbacks(IGameActions instance)
             {
-                if (m_Wrapper.m_Newactionmap1ActionsCallbackInterfaces.Remove(instance))
+                if (m_Wrapper.m_GameActionsCallbackInterfaces.Remove(instance))
                     UnregisterCallbacks(instance);
             }
 
-            public void SetCallbacks(INewactionmap1Actions instance)
+            public void SetCallbacks(IGameActions instance)
             {
-                foreach (var item in m_Wrapper.m_Newactionmap1ActionsCallbackInterfaces)
+                foreach (var item in m_Wrapper.m_GameActionsCallbackInterfaces)
                     UnregisterCallbacks(item);
-                m_Wrapper.m_Newactionmap1ActionsCallbackInterfaces.Clear();
+                m_Wrapper.m_GameActionsCallbackInterfaces.Clear();
                 AddCallbacks(instance);
             }
         }
-        public Newactionmap1Actions @Newactionmap1 => new Newactionmap1Actions(this);
+        public GameActions @Game => new GameActions(this);
         public interface ICameraActions
         {
             void OnMouseMove(InputAction.CallbackContext context);
@@ -369,9 +369,9 @@ namespace Defense.InputActions
             void OnScroll(InputAction.CallbackContext context);
             void OnInit(InputAction.CallbackContext context);
         }
-        public interface INewactionmap1Actions
+        public interface IGameActions
         {
-            void OnNewaction(InputAction.CallbackContext context);
+            void OnLeftClick(InputAction.CallbackContext context);
         }
     }
 }

@@ -1,6 +1,14 @@
 
 namespace Defense.Utils
 {
+	public enum GameInputState
+	{
+		Main,
+		PrePlay,
+		Playing,
+		Paused,
+	}
+
 	public enum SearchEnemyType
 	{
 		Front,

@@ -4,6 +4,7 @@ using Defense.Utils;
 using Defense.Manager;
 using Defense.Interfaces;
 using IUtil;
+using DG.Tweening;
 
 namespace Defense.Controller
 {
@@ -258,6 +259,34 @@ namespace Defense.Controller
 			Gizmos.DrawWireSphere(transform.position, unitData.SearchRange);
 			Gizmos.color = Color.blue;
 			Gizmos.DrawWireSphere(transform.position, unitData.AttackRange);
+		}
+
+
+		public float hoverHeight = 1f;
+		public float hoverDuration = 0.2f;
+		public float moveDuration = 0.2f;
+
+		private Tween currentTween = null;
+		private bool isDragging = false;
+
+		public void PickUp()
+		{
+			if (currentTween != null) currentTween.Kill();
+
+			currentTween = transform.DOMoveY(hoverHeight, hoverDuration)
+				.SetEase(Ease.OutQuad);
+		}
+
+		public void DropTo(Vector3 targetSlotPos)
+		{
+			isDragging = false;
+
+			if (currentTween != null) currentTween.Kill();
+			transform.position = new Vector3(targetSlotPos.x, hoverHeight, targetSlotPos.z);
+
+			Sequence seq = DOTween.Sequence();
+			seq.Append(transform.DOMoveY(0f, hoverDuration).SetEase(Ease.InQuad));
+			currentTween = seq;
 		}
 
 	}

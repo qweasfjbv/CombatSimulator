@@ -1,4 +1,6 @@
 
+using UnityEngine;
+
 namespace Defense.Utils
 {
 	public static class Constants
@@ -17,5 +19,11 @@ namespace Defense.Utils
 		public static readonly string ANIM_NAME_ATTACK = "Attack";
 		public static readonly string ANIM_NAME_DAMAGE = "Damage";
 		public static readonly string ANIM_NAME_DEATH = "Death";
+
+		public static readonly int LAYER_SLOT = 1 << 13;
+
+		public static readonly Color COLOR_SLOT_START = new Color(1f, 0, 0, 0.7f);
+		public static readonly Color COLOR_SLOT_END = new Color(0, 1f, 0, 0.7f);
+
 	}
 }

@@ -110,11 +110,11 @@
             ]
         },
         {
-            "name": "New action map1",
+            "name": "Game",
             "id": "9b4e9571-228c-4244-bc9a-358dccc6f3a8",
             "actions": [
                 {
-                    "name": "New action",
+                    "name": "LeftClick",
                     "type": "Button",
                     "id": "01d80ecc-dc5d-4c8b-81d8-5112e5447794",
                     "expectedControlType": "",
@@ -127,11 +127,11 @@
                 {
                     "name": "",
                     "id": "b9f11161-3d3b-4099-9e1f-281cc2c70b2d",
-                    "path": "",
+                    "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "New action",
+                    "action": "LeftClick",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

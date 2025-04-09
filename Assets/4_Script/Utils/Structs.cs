@@ -24,7 +24,6 @@ namespace Defense.Utils
 		public GameObject Prefab;
 		public int PoolSize;
 		public ParticleType Key;
-
 	}
 
 	[System.Serializable]
@@ -35,7 +34,6 @@ namespace Defense.Utils
 		public GameObject Prefab;
 		public int PoolSize;
 		public ProjectileType Key;
-
 	}
 
 	public struct HitResult

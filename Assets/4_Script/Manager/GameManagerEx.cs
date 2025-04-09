@@ -1,7 +1,9 @@
 using Defense.Controller;
 using Defense.Debugger;
+using Defense.Props;
 using IUtil;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Defense.Manager
@@ -30,11 +32,16 @@ namespace Defense.Manager
 		[SerializeField] private GameObject personPrefab;
 		[SerializeField] private int testCount;
 
-		[SerializeField] private GameObject towerPrefab1;
-		[SerializeField] private GameObject towerPrefab2;
+		[SerializeField] private GameObject towerPrefab;
+		[SerializeField] private GameObject magePrefab;
+		[SerializeField] private GameObject archerPrefab;
+
+		[SerializeField] private GameObject slotPrefab;
 
 		[SerializeField, Range(0.5f, 3.0f)]
 		private float timeScale = 1.0f;
+
+		private List<PlacementSlot> slotList = new List<PlacementSlot>();
 
 		private void Awake()
 		{
@@ -44,23 +51,44 @@ namespace Defense.Manager
 		private void Update()
 		{
 			Time.timeScale = timeScale;
-			if (Input.GetKeyDown(KeyCode.Alpha1))
+		}
+
+		[Button]
+		private void SpawnSlots()
+		{
+			for (int i = 0; i < 5; i++)
 			{
-				SpawnTowers();
-			}
-			if (Input.GetKeyDown(KeyCode.Alpha2))
-			{
-				StartTest();
+				for (int j = -2; j <= 2; j++) 
+				{
+					slotList.Add(Instantiate(slotPrefab, new Vector3(5 * j, 0.01f, 5 * (i + 1)), Quaternion.Euler(90f, 0, 0)).GetComponent<PlacementSlot>());
+				}
 			}
 		}
 
-		[Button()]
+		[Button]
+		private void SpawnMage()
+		{
+			for(int i=0; i<slotList.Count; i++)
+			{
+				if (!slotList[i].IsOccupied)
+				{
+					UnitController mageController = Instantiate(i%2 == 0 ? magePrefab : archerPrefab, slotList[i].transform.position, Quaternion.identity)
+						.GetComponent<UnitController>();
+					mageController.InitEnemy(0, i % 2 == 0 ? 2 : 1);
+					slotList[i].SetUnit(mageController);
+					return;
+				}
+			}
+		}
+		
+
+		[Button]
 		private void SpawnTowers()
 		{
 			for (int i = 5; i < 6; i++)
 			{
-				TowerController tc = Instantiate(towerPrefab1, new Vector3(5, 0, 5 * (i+1)), Quaternion.identity).GetComponent<TowerController>();
-				tc = Instantiate(towerPrefab2, new Vector3(-5, 0, 5 * (i+1)), Quaternion.identity).GetComponent<TowerController>();
+				TowerController tc = Instantiate(towerPrefab, new Vector3(5, 0, 5 * (i+1)), Quaternion.identity).GetComponent<TowerController>();
+				tc = Instantiate(towerPrefab, new Vector3(-5, 0, 5 * (i+1)), Quaternion.identity).GetComponent<TowerController>();
 			}
 		}
 
