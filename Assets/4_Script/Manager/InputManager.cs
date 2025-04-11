@@ -1,9 +1,7 @@
 using Defense.Controller;
-using Defense.Debugger;
 using Defense.InputActions;
 using Defense.Props;
 using Defense.Utils;
-using System.Net;
 using UnityEngine;
 
 namespace Defense.Manager
@@ -79,6 +77,10 @@ namespace Defense.Manager
 			{
 				if (prevHoverSlot != null)
 				{
+					if (selectedSlot == prevHoverSlot)
+					{
+						UIManager.Instance.GameUI.ShowSlotUI(prevHoverSlot.transform.position, prevHoverSlot);
+					}
 					ChangeSlot(prevHoverSlot);
 				}
 

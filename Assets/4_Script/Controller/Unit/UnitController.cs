@@ -169,6 +169,7 @@ namespace Defense.Controller
 				GetDirFromPath(currentWaypointIndex + 1)
 			);
 		}
+		public abstract bool IsSameUnit(int unitId, int rarity);
 		private void GetRandomStartPosition()
 		{
 			Vector3 dir = waypoints[1] - waypoints[0];
@@ -321,11 +322,11 @@ namespace Defense.Controller
 		private Tween currentTween = null;
 		private bool isDragging = false;
 
-		public void PickUp()
+		public void PickUp(float baseHeight)
 		{
 			if (currentTween != null) currentTween.Kill();
 
-			currentTween = transform.DOMoveY(hoverHeight, hoverDuration)
+			currentTween = transform.DOMoveY(baseHeight + hoverHeight, hoverDuration)
 				.SetEase(Ease.OutQuad);
 		}
 
@@ -334,10 +335,10 @@ namespace Defense.Controller
 			isDragging = false;
 
 			if (currentTween != null) currentTween.Kill();
-			transform.position = new Vector3(targetSlotPos.x, hoverHeight, targetSlotPos.z);
+			transform.position = new Vector3(targetSlotPos.x, targetSlotPos.y + hoverHeight, targetSlotPos.z);
 
 			Sequence seq = DOTween.Sequence();
-			seq.Append(transform.DOMoveY(0f, hoverDuration).SetEase(Ease.InQuad));
+			seq.Append(transform.DOMoveY(targetSlotPos.y, hoverDuration).SetEase(Ease.InQuad));
 			currentTween = seq;
 		}
 

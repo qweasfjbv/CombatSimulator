@@ -10,24 +10,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fdc70bb699fd6454192bfd6676edd02e, type: 3}
-  m_Name: 2_Mage
+  m_Name: 0_Warrior_Common
   m_EditorClassIdentifier: 
-  _moveSpeed: 1
+  _moveSpeed: 2
   _rotationSpeed: 10
-  _damageType: 1
-  _searchRange: 10
-  _attackRange: 10
+  _damageType: 0
+  _searchRange: 7
+  _attackRange: 3
   _attackCooltime: 1
   _attackDelay: 0
   _useKnockback: 1
   _knockbackDuration: 0.3
   _targetLayer:
     serializedVersion: 2
-    m_Bits: 1024
+    m_Bits: 2048
   _maxDetectCounts: 10
   _deathAnimDuration: 0.5
   _fadeOutDuration: 0.5
-  _skillDuration: 0.4
   _statsByLevel:
   - MaxHealth: 100
     AttackPower: 10

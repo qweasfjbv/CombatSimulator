@@ -14,12 +14,21 @@ namespace Defense.Debugger
 
 		public void DrawDottedLine(Vector3 start,  Vector3 end)
 		{
-			float distance = Vector3.Distance(start, end);
-			start.y = .05f;
-			end.y = .05f;
 			lineRenderer.SetPosition(0, start);
 			lineRenderer.SetPosition(1, end);
-			lineRenderer.textureScale = new Vector2((int)(distance * 2), 1f);
+
+			lineRenderer.textureScale = new Vector2((int)(GetCameraPlaneDistance(start, end) * 2), 1f);
+		}
+		public float GetCameraPlaneDistance(Vector3 start, Vector3 end)
+		{
+			Vector3 camForward = Camera.main.transform.forward.normalized;
+			Vector3 delta = end - start;
+
+			Vector3 projection = Vector3.Project(delta, camForward);
+
+			Vector3 flattened = delta - projection;
+
+			return flattened.magnitude;
 		}
 	}
 }

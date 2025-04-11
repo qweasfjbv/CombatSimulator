@@ -15,6 +15,11 @@ namespace Defense.Controller
 			ac.ShootArrow(transform.position, target, 6f, unitData.AttackDelay).Forget();
 		}
 
+		public override bool IsSameUnit(int unitId, int level)
+		{
+			return unitId == 1;
+		}
+
 		protected override void ExecuteSkill(Transform target)
 		{
 

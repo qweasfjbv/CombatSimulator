@@ -7,6 +7,8 @@ namespace Defense.Utils
 	{
 		public static readonly int ENEMY_LEVEL_MAX = 20;
 		public static readonly int TOWER_LEVEL_MAX = 5;
+		public static readonly int SLOT_UNIT_MAX = 3;
+		public static readonly float SLOT_WIDTH = 4f;
 
 		public static readonly string ANIM_PARAM_ATTACK = "IsAttack";
 		public static readonly string ANIM_PARAM_DAMAGED = "IsDamaged";

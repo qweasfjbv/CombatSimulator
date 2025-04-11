@@ -14,6 +14,12 @@ namespace Defense.Controller
 			target.GetComponent<IDamagable>().GetImmediateDamage(unitData.DamageType, unitData.StatsByLevel[0].AttackPower);
 			PoolingManager.Instance.SpawnParticle(Utils.ParticleType.Lightning, target.position);
 		}
+
+		public override bool IsSameUnit(int unitId, int level)
+		{
+			return unitId == 2;
+		}
+
 		protected override void ExecuteSkill(Transform target)
 		{
 			// HACK

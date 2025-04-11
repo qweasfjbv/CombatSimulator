@@ -1,8 +1,7 @@
-using Cysharp.Threading.Tasks.Triggers;
 using Defense.Controller;
-using Defense.Manager;
 using Defense.Utils;
 using IUtil;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Defense.Props
@@ -10,11 +9,28 @@ namespace Defense.Props
 	public class PlacementSlot : MonoBehaviour
 	{
 		[SerializeField, ReadOnly]
-		private bool isOccupied = false;
-		[SerializeField, ReadOnly]
-		private UnitController unit;
+		private List<UnitController> units = new();
 
-		public bool IsOccupied { get {  return isOccupied; } }
+		private static float[,,] relativePos = new float[4, 3, 2]
+		{
+			{	// Count 0
+				{0f, 0f}, {0f, 0f}, {0f, 0f}
+			},
+			{	// Count 1
+				{0f, 0f}, {0f, 0f}, {0f, 0f}
+			},
+			{	// Count 2
+				{-.2f, 0f}, {.2f, 0f}, {0f, 0f}
+			},
+			{	// Count 3
+				{-.2f, -.15f}, {.2f, -.15f}, {0f, .15f}
+			},
+		};
+
+		// HACK
+		private float towerHeight = 6.2f;
+
+		private bool isOnTower = false;
 
 		private void SetStartSlot(bool on)
 		{
@@ -22,21 +38,43 @@ namespace Defense.Props
 		}
 		private void SetEndSlot(bool on)
 		{
+
 			GetComponent<Renderer>().material.color = on ? Constants.COLOR_SLOT_END : Color.white;
 		}
 
-		public void SetUnit(UnitController unit)
+		public bool IsEmpty()
 		{
-			if (unit != null)
+			return units.Count == 0;
+		}
+		public bool IsAbleToAdd(int unitId, int rarity)
+		{
+			if (units.Count >= Constants.SLOT_UNIT_MAX) return false;
+			if (units.Count == 0) return false;
+
+			return units[0].IsSameUnit(unitId, rarity);
+		}
+
+		public void AddUnit(UnitController controller)
+		{
+			units.Add(controller);
+			DropAllUnits();
+		}
+
+		public void SetTower()
+		{
+			isOnTower = true;
+			transform.position = new Vector3(transform.position.x, towerHeight, transform.position.z);
+			DropAllUnits();
+		}
+		public void SetUnits(List<UnitController> units)
+		{
+			if (units != null)
 			{
-				isOccupied = true;
-				this.unit = unit;
-				unit.DropTo(transform.position);
+				this.units = units;
 			}
 			else
 			{
-				isOccupied = false;
-				this.unit = null;
+				this.units = null;
 			}
 		}
 
@@ -53,13 +91,13 @@ namespace Defense.Props
 		}
 		public void OnSelect()
 		{
-			if (unit != null) unit.PickUp();
+			PickAllUnits();
 			isSelected = true;
 			SetStartSlot(true);
 		}
 		public void OnRelease()
 		{
-			if (unit != null) unit.DropTo(transform.position);
+			DropAllUnits();
 			isSelected = false;
 			SetStartSlot(false);
 		}
@@ -70,12 +108,23 @@ namespace Defense.Props
 			if (slot == this) return;
 			slot.OnRelease();
 
-			UnitController tmpUnit = slot.unit;
-			slot.SetUnit(this.unit);
-			SetUnit(tmpUnit);
+			List<UnitController> tmpUnit = slot.units;
+			slot.SetUnits(this.units);
+			SetUnits(tmpUnit);
 
-			unit?.DropTo(transform.position);
-			slot.unit?.DropTo(slot.transform.position);
+			DropAllUnits();
+			slot.DropAllUnits();
+		}
+
+		private void DropAllUnits()
+		{
+			for (int i = 0; i < units.Count; i++) { units[i].DropTo(transform.position + 
+				Constants.SLOT_WIDTH* (new Vector3(relativePos[units.Count,i,0], 0f, relativePos[units.Count,i,1]))); }
+		}
+
+		private void PickAllUnits()
+		{
+			for (int i = 0; i < units.Count; i++) { units[i].PickUp(transform.position.y); }
 		}
 	}
 }

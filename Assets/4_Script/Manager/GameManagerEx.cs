@@ -1,5 +1,4 @@
 using Defense.Controller;
-using Defense.Debugger;
 using Defense.Props;
 using IUtil;
 using System.Collections;
@@ -51,6 +50,7 @@ namespace Defense.Manager
 		private void Update()
 		{
 			Time.timeScale = timeScale;
+
 		}
 
 		[Button]
@@ -68,28 +68,48 @@ namespace Defense.Manager
 		[Button]
 		private void SpawnMage()
 		{
+			// 뭘 Spawn할지 결정
+			int id = Random.Range(1, 3);
+			int emptyIdx = -1;
+			int sameIdx = -1;
 			for(int i=0; i<slotList.Count; i++)
 			{
-				if (!slotList[i].IsOccupied)
+				if (slotList[i].IsEmpty())
 				{
-					UnitController mageController = Instantiate(i%2 == 0 ? magePrefab : archerPrefab, slotList[i].transform.position, Quaternion.identity)
-						.GetComponent<UnitController>();
-					mageController.InitEnemy(0, i % 2 == 0 ? 2 : 1);
-					slotList[i].SetUnit(mageController);
-					return;
+					emptyIdx = i;
+					continue;
+				}
+
+				if (slotList[i].IsAbleToAdd(id, 0))
+				{
+					sameIdx = i;
 				}
 			}
-		}
-		
 
-		[Button]
-		private void SpawnTowers()
-		{
-			for (int i = 5; i < 6; i++)
+			int finalIndex = -1;
+
+			if (emptyIdx >= 0) finalIndex = emptyIdx;
+			if (sameIdx >= 0) finalIndex = sameIdx;
+
+			if(finalIndex < 0)
 			{
-				TowerController tc = Instantiate(towerPrefab, new Vector3(5, 0, 5 * (i+1)), Quaternion.identity).GetComponent<TowerController>();
-				tc = Instantiate(towerPrefab, new Vector3(-5, 0, 5 * (i+1)), Quaternion.identity).GetComponent<TowerController>();
+				Debug.Log("필드 가득참!!");
+				return;
 			}
+
+			UnitController newController = Instantiate(id == 2 ? magePrefab : archerPrefab, slotList[finalIndex].transform.position, Quaternion.identity)
+				.GetComponent<UnitController>();
+			newController.InitEnemy(0, id);
+			slotList[finalIndex].AddUnit(newController);
+		}
+
+		[SerializeField] private int towerIndex = 0;		
+		
+		[Button(nameof(towerIndex))]
+		private void SpawnTowers(int index)
+		{
+			Instantiate(towerPrefab, slotList[index].transform.position, Quaternion.identity).GetComponent<TowerController>();
+			slotList[index].SetTower();
 		}
 
 
