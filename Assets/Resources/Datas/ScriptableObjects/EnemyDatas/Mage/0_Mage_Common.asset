@@ -15,10 +15,11 @@ MonoBehaviour:
   _moveSpeed: 1
   _rotationSpeed: 10
   _damageType: 1
-  _searchRange: 10
+  _searchRange: 100
   _attackRange: 10
   _attackCooltime: 1
   _attackDelay: 0
+  _mpPerAttack: 0
   _useKnockback: 1
   _knockbackDuration: 0.3
   _targetLayer:
@@ -27,7 +28,7 @@ MonoBehaviour:
   _maxDetectCounts: 10
   _deathAnimDuration: 0.5
   _fadeOutDuration: 0.5
-  _skillDuration: 0.4
+  _skillDuration: 1
   _statsByLevel:
   - MaxHealth: 100
     AttackPower: 10

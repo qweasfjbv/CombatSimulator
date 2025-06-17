@@ -330,7 +330,10 @@ GameObject:
   m_Component:
   - component: {fileID: 3523788658123437308}
   - component: {fileID: 8713361469461578792}
-  m_Layer: 0
+  - component: {fileID: -8779458206750508136}
+  - component: {fileID: 5632048713626775388}
+  - component: {fileID: -6960495601560701859}
+  m_Layer: 11
   m_Name: 0_Mage_Common
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -364,7 +367,7 @@ Animator:
   m_GameObject: {fileID: 3657642983252307198}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 02ded044b8e0963439276550f50be6f9, type: 3}
-  m_Controller: {fileID: 9100000, guid: 5f1e05453b57e6e4183c018eeb3ff478, type: 2}
+  m_Controller: {fileID: 22100000, guid: 9a1df8feb9881a14caf7e6ce7c25c28c, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -376,6 +379,62 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!65 &-8779458206750508136
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3657642983252307198}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &5632048713626775388
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3657642983252307198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 121fd9a352de21c45aab2c64571812a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isPlayerUnit: 0
+  routeId: 0
+  enemyId: 2
+  hoverHeight: 1
+  hoverDuration: 0.2
+  moveDuration: 0.2
+--- !u!114 &-6960495601560701859
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3657642983252307198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
+  outlineMaskMaterial: {fileID: 2100000, guid: 003ee8011e885f2488b68a3c3e579f8d, type: 2}
+  outlineFillMaterial: {fileID: 2100000, guid: ea689b3f91b56a0458b89c03dae4a19e, type: 2}
 --- !u!1 &4094539410893100118
 GameObject:
   m_ObjectHideFlags: 0

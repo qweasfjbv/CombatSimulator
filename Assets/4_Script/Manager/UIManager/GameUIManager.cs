@@ -1,8 +1,8 @@
 using Defense.Props;
 using Defense.UI;
 using Defense.Utils;
+using IUtil;
 using System.Collections.Generic;
-using System.Linq;
 using UI.Items;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,6 +16,9 @@ namespace Defense.Manager
 		[SerializeField] private Button backgroundPanel;
 		[SerializeField] private DamageTextPool damagePool;
 		[SerializeField] private PopupUIBase slotPopup;
+		[SerializeField] private StageStartUI stageStartUI;
+
+		[SerializeField] private Button stageStartButton;
 
 		Stack<PopupUIBase> popupStack = new();
 
@@ -27,7 +30,18 @@ namespace Defense.Manager
 			{
 				CloseTopPopup();
 			});
+
+			stageStartButton.onClick.AddListener(() =>
+			{
+				GameManagerEx.Instance.OnGameStartButtonClicked();
+			});
 		}
+
+		public void OnStageStart(int stageIdx)
+		{
+			stageStartUI.OnStartStage(stageIdx);
+		}
+
 		private void CloseTopPopup()
 		{
 			if (popupStack.Count <= 0) return;
@@ -48,10 +62,11 @@ namespace Defense.Manager
 		{
 			Vector2 screenPos = Camera.main.WorldToScreenPoint(worldPos);
 			Vector2 localPoint;
-			RectTransformUtility.ScreenPointToLocalPointInRectangle(slotPopup.GetComponent<RectTransform>(), screenPos, null, out localPoint);
+			RectTransformUtility.ScreenPointToLocalPointInRectangle(canvas.GetComponent<RectTransform>(), screenPos, null, out localPoint);
 			slotPopup.Show(localPoint);
 			(slotPopup as SlotPopup).SetInfo(slot);
 
+			// TODO - popupstack 다지워야됨
 			popupStack.Push(slotPopup);
 		}
 

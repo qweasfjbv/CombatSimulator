@@ -870,7 +870,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2603907301929186124}
   - component: {fileID: 4475843283642111830}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: 4_Shield_Legend
   m_TagString: Untagged
   m_Icon: {fileID: 0}

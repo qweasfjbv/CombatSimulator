@@ -1265,7 +1265,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2363457967738522471}
   - component: {fileID: 7879860150079267426}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: 3_Shield_Epic
   m_TagString: Untagged
   m_Icon: {fileID: 0}

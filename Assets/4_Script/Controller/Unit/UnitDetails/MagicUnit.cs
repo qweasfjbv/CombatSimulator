@@ -11,8 +11,6 @@ namespace Defense.Controller
 		{
 			if (target == null || target.GetComponent<IDamagable>() == null) return;
 
-			target.GetComponent<IDamagable>().GetImmediateDamage(unitData.DamageType, unitData.StatsByLevel[0].AttackPower);
-			PoolingManager.Instance.SpawnParticle(Utils.ParticleType.Lightning, target.position);
 		}
 
 		public override bool IsSameUnit(int unitId, int level)
@@ -22,8 +20,9 @@ namespace Defense.Controller
 
 		protected override void ExecuteSkill(Transform target)
 		{
-			// HACK
-			Debug.Log("SKILL!");
+			if (target == null) return;
+			target.GetComponent<IDamagable>().GetImmediateDamage(unitData.DamageType, unitData.StatsByLevel[0].AttackPower);
+			PoolingManager.Instance.SpawnParticle(Utils.ParticleType.Lightning, target.position);
 		}
 	}
 }

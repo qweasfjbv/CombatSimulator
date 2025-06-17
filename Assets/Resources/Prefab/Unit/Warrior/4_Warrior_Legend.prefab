@@ -6059,7 +6059,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1657697087785062767}
   - component: {fileID: 7822509966789307188}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: 4_Warrior_Legend
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6093,7 +6093,7 @@ Animator:
   m_GameObject: {fileID: 7349023737568372142}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 02ded044b8e0963439276550f50be6f9, type: 3}
-  m_Controller: {fileID: 9100000, guid: 5f1e05453b57e6e4183c018eeb3ff478, type: 2}
+  m_Controller: {fileID: 9100000, guid: 39164aad5a45b6e4fb8eec7201d8f0ad, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

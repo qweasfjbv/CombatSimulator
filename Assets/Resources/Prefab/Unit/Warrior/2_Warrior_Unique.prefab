@@ -431,7 +431,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4966707091402674115}
   - component: {fileID: 8116217079425132616}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: 2_Warrior_Unique
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -465,7 +465,7 @@ Animator:
   m_GameObject: {fileID: 2717762311503960250}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 02ded044b8e0963439276550f50be6f9, type: 3}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 39164aad5a45b6e4fb8eec7201d8f0ad, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 1

@@ -9,6 +9,9 @@ using Defense.Interfaces;
 
 namespace Defense.Controller
 {
+	/// <summary>
+	/// UnitController의 전투 관련 인터페이스 구현 및 함수 구현
+	/// </summary>
 	public partial class UnitController
 	{
 		private float currentHP = 0f;
@@ -36,6 +39,7 @@ namespace Defense.Controller
 			isEnemyDead = false;
 			animator.SetBool(animIDDeath, false);
 			currentMP = 0f;
+			CacheStatData(unitData.StatsByLevel[0]);
 		}
 
 
@@ -59,10 +63,6 @@ namespace Defense.Controller
 
 			currentAttackCooltime = unitData.AttackCooltime;
 		}
-		/// <summary>
-		/// 자식 클래스에서 Detail 구현
-		/// </summary>
-		public abstract void Attack(Transform target);
 		public void UpdateCooltimeTick()
 		{
 			if (currentAttackCooltime >= 0f)
@@ -87,6 +87,29 @@ namespace Defense.Controller
 			DelayedDamage(type, trueDamage, duration, cts.Token).Forget();
 		}
 
+		/** ISkillable Interface **/
+		public bool IsAbleToUseSkill()
+		{
+			// HACK - 특정 레벨 이상에만 열림
+			return currentMP >= 10f;
+		}
+		public void StartSkillAnim()
+		{
+			if (targetTransform == null)
+			{
+				isAttacking = false;
+				isChasing = false;
+				return;
+			}
+
+			animator.SetFloat(animIDSpeed, 0);
+			animator.SetTrigger(animIDSkill);
+			animator.SetFloat(animIDSkillMT, skillClipLength / unitData.SkillDuration);
+			currentMP = 0;
+			currentAttackCooltime = unitData.SkillDuration;
+		}
+
+		/** Pre-Calculate Damage System **/
 		/// <summary>
 		/// Delay 된 데미지를 입히는 함수
 		/// 취소 시 catch 부분 실행됨
@@ -159,7 +182,7 @@ namespace Defense.Controller
 				await UniTask.Delay((int)(deathDuration * 1000));
 				// TODO - FadeOut
 				await UniTask.Delay((int)(fadeDuration * 1000));
-				Destroy(this.gameObject);
+				gameObject.SetActive(false);
 			}
 			catch (System.OperationCanceledException)
 			{

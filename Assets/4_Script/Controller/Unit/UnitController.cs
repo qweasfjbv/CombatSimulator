@@ -5,6 +5,7 @@ using Defense.Manager;
 using Defense.Interfaces;
 using IUtil;
 using DG.Tweening;
+using Defense.Props;
 
 namespace Defense.Controller
 {
@@ -13,6 +14,7 @@ namespace Defense.Controller
 	public abstract partial class UnitController : MonoBehaviour
 		,IAttackable
 		,IDamagable
+		,ISkillable
 	{
 		/** Components **/
 		private Transform myTransform;
@@ -20,7 +22,6 @@ namespace Defense.Controller
 
 		/** SO Datas **/
 		protected UnitData unitData = null;
-		private RouteData routeData = null;
 
 		/** Target Infos **/
 		private Collider[] targets;
@@ -28,8 +29,8 @@ namespace Defense.Controller
 		private Vector3 targetPosition = Vector3.zero;
 
 		/** Pre-load Variables **/
-		private List<Vector3> waypoints = new List<Vector3>();
-		private float widthOffset = 0f;
+		private PlacementSlot mySlot = null;
+		public PlacementSlot MySlot { get => mySlot; set => mySlot = value; }
 
 		private float attackClipLength = 0f;
 		private float damagedClipLength = 0f;
@@ -48,10 +49,12 @@ namespace Defense.Controller
 
 		/** State Variables **/
 		private float currentAttackCooltime = 0f;
-		private int currentWaypointIndex = 0;
 		private bool isChasing = false;
 		private bool isAttacking = false;
 
+		public abstract bool IsSameUnit(int unitId, int rarity);
+		public abstract void Attack(Transform target);
+		protected abstract void ExecuteSkill(Transform target);
 
 		private void Awake()
 		{
@@ -74,10 +77,7 @@ namespace Defense.Controller
 			animIDSkillMT = Animator.StringToHash(Constants.ANIM_PARAM_SKILL_MT);
 		}
 
-
 		[Header("DEBUG")]
-		public bool isTowerUnit = false;
-		public int routeId;
 		public int enemyId;
 
 		private void Update()
@@ -87,21 +87,13 @@ namespace Defense.Controller
 			UpdateKnockbackRemainedTime();
 
 			if (IsKnockBack || isEnemyDead) return;
-
-			if (isTowerUnit)
-			{
-				OnUpdateTowerUnit();
-			}
-			else
-			{
-				OnUpdateInfantry();
-			}
+			OnUpdateUnit();
 		}
 
 		/// <summary>
 		/// Update logics for walking/chasing on the ground
 		/// </summary>
-		public void OnUpdateInfantry()
+		public void OnUpdateUnit()
 		{
 			CheckNearbyTarget();
 
@@ -123,60 +115,15 @@ namespace Defense.Controller
 			{
 				ChaseTarget();
 			}
-			else
-			{
-				FollowPath();
-			}
 		}
 
-		/// <summary>
-		/// Update logics for tower unit
-		/// </summary>
-		private void OnUpdateTowerUnit()
+		[Button(nameof(enemyId))]
+		public void InitUnit(int enemyId)
 		{
-			CheckNearbyTarget();
-
-			if (isAttacking)
-			{
-				if (IsAbleToAttack())
-				{
-					if (IsAbleToUseSkill())
-					{
-						StartSkillAnim();
-					}
-					else
-					{
-						StartAttackAnim();
-					}
-				}
-			}
-		}
-
-		[Button(nameof(routeId), nameof(enemyId))]
-		public void InitEnemy(int routeId, int enemyId)
-		{
-			routeData = Managers.Resource.GetRouteData(routeId);
 			unitData = Managers.Resource.GetEnemyData(enemyId);
 			CacheStatData(unitData.StatsByLevel[0]);
 
 			targets = new Collider[unitData.MaxDetectCounts];
-			waypoints = routeData.Waypoints;
-
-			if (isTowerUnit) return;
-			GetRandomStartPosition();
-			targetPosition = waypoints[currentWaypointIndex + 1] + widthOffset * Calculation.GetConsistentBisector(
-				-(waypoints[currentWaypointIndex + 1] - waypoints[currentWaypointIndex]),
-				GetDirFromPath(currentWaypointIndex + 1)
-			);
-		}
-		public abstract bool IsSameUnit(int unitId, int rarity);
-		private void GetRandomStartPosition()
-		{
-			Vector3 dir = waypoints[1] - waypoints[0];
-			dir = (Quaternion.Euler(0, 90, 0) * dir).normalized;
-
-			widthOffset = Random.Range(-routeData.WayWidth / 2f, routeData.WayWidth / 2f);
-			transform.position = waypoints[0] + dir * widthOffset;
 		}
 
 		private int targetCounts = 0;
@@ -193,7 +140,9 @@ namespace Defense.Controller
 					if (targets[i] == null) break; 
 					if (targets[i].GetComponent<IDamagable>() == null ||
 					!targets[i].GetComponent<IDamagable>().IsAbleToTargeted()) continue;
+
 					float distance = Vector3.SqrMagnitude(transform.position - targets[i].transform.position);
+
 					if (distance < minDistance)
 					{
 						minDistance = distance;
@@ -202,6 +151,7 @@ namespace Defense.Controller
 				}
 
 				targetTransform = closestTarget;
+				if (targetTransform == null) return;
 				isChasing = true;
 				isAttacking = false;
 			}
@@ -217,30 +167,6 @@ namespace Defense.Controller
 				isAttacking = true;
 				isChasing = false;
 			}
-		}
-
-		private Vector3 dir = Vector3.zero;
-		private Quaternion targetRotation = Quaternion.identity;
-		private void FollowPath()
-		{
-			dir = waypoints[currentWaypointIndex + 1] - waypoints[currentWaypointIndex];
-			targetRotation = Quaternion.LookRotation(targetPosition - myTransform.position);
-
-			myTransform.rotation = Quaternion.Lerp(myTransform.rotation, targetRotation, unitData.RotationSpeed * Time.deltaTime);
-			myTransform.position = Vector3.MoveTowards(myTransform.position, targetPosition, unitData.MoveSpeed* Time.deltaTime);
-
-			if (Vector3.Dot(dir, targetPosition - myTransform.position) < Mathf.Epsilon)
-			{
-				currentWaypointIndex++;
-				if (currentWaypointIndex >= waypoints.Count - 1) { Destroy(this.gameObject); return; }
-
-				targetPosition = waypoints[currentWaypointIndex + 1] + widthOffset * Calculation.GetConsistentBisector(
-					-(waypoints[currentWaypointIndex + 1] - waypoints[currentWaypointIndex]),
-					GetDirFromPath(currentWaypointIndex + 1)
-				);
-			}
-
-			GetComponent<Animator>().SetFloat(animIDSpeed, (targetPosition - myTransform.position).AbsSum());
 		}
 		private void ChaseTarget()
 		{
@@ -260,50 +186,6 @@ namespace Defense.Controller
 			GetComponent<Animator>().SetFloat(animIDSpeed, (targetTransform.position - myTransform.position).AbsSum());
 		}
 
-		public Vector3 GetDirFromPath(int index)
-		{
-			if (index + 1 == waypoints.Count)
-			{
-				return waypoints[index] - waypoints[index - 1];
-			}
-
-			return waypoints[index + 1] - waypoints[index];
-		}
-
-		/** Animation Events **/
-		public void OnAttack()
-		{
-			Attack(targetTransform);
-			// HACK
-			currentMP += 30f;
-		}
-		public void OnSkill()
-		{
-			ExecuteSkill(targetTransform);
-		}
-
-		private void StartSkillAnim()
-		{
-			if (targetTransform == null)
-			{
-				isAttacking = false;
-				isChasing = false;
-				return;
-			}
-
-			animator.SetFloat(animIDSpeed, 0);
-			animator.SetTrigger(animIDSkill);
-			animator.SetFloat(animIDSkillMT, skillClipLength / unitData.SkillDuration);
-			currentMP = 0;
-			currentAttackCooltime = unitData.SkillDuration;
-		}
-		private bool IsAbleToUseSkill()
-		{
-			// HACK - 특정 레벨 이상에만 열림
-			return currentMP >= 10f;
-		}
-		protected abstract void ExecuteSkill(Transform target);
-
 		private void OnDrawGizmos()
 		{
 			if (unitData == null) return;
@@ -314,10 +196,9 @@ namespace Defense.Controller
 			Gizmos.DrawWireSphere(transform.position, unitData.AttackRange);
 		}
 
-
-		public float hoverHeight = 1f;
-		public float hoverDuration = 0.2f;
-		public float moveDuration = 0.2f;
+		public static float hoverHeight = 1f;
+		public static float hoverDuration = 0.2f;
+		public static float moveDuration = 0.2f;
 
 		private Tween currentTween = null;
 		private bool isDragging = false;
@@ -329,7 +210,6 @@ namespace Defense.Controller
 			currentTween = transform.DOMoveY(baseHeight + hoverHeight, hoverDuration)
 				.SetEase(Ease.OutQuad);
 		}
-
 		public void DropTo(Vector3 targetSlotPos)
 		{
 			isDragging = false;

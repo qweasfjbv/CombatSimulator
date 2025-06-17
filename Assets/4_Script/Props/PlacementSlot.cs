@@ -57,6 +57,7 @@ namespace Defense.Props
 		public void AddUnit(UnitController controller)
 		{
 			units.Add(controller);
+			controller.MySlot = this;
 			DropAllUnits();
 		}
 
@@ -71,10 +72,32 @@ namespace Defense.Props
 			if (units != null)
 			{
 				this.units = units;
+				for(int i=0; i<units.Count; i++)
+				{
+					units[i].MySlot = this;
+				}
 			}
 			else
 			{
 				this.units = null;
+			}
+		}
+
+		public void OnStartStage()
+		{
+			GetComponent<MeshRenderer>().material.color = Color.clear;
+			for(int i=0;i<units.Count;i++)
+			{
+				units[i].OnStartStage();
+			}
+		}
+
+		public void OnEndStage()
+		{
+			GetComponent<MeshRenderer>().material.color = Color.white;
+			for (int i = 0; i < units.Count; i++)
+			{
+				units[i].OnEndStage();
 			}
 		}
 

@@ -982,7 +982,7 @@ GameObject:
   m_Component:
   - component: {fileID: 866875138899584484}
   - component: {fileID: 194743350814500540}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: 0_Shield_Common
   m_TagString: Untagged
   m_Icon: {fileID: 0}

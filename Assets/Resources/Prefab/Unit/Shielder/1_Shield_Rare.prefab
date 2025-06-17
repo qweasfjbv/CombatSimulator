@@ -437,7 +437,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7900097007554969239}
   - component: {fileID: 737685386010876027}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: 1_Shield_Rare
   m_TagString: Untagged
   m_Icon: {fileID: 0}

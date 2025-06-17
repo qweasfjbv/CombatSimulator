@@ -15,10 +15,11 @@ MonoBehaviour:
   _moveSpeed: 1
   _rotationSpeed: 10
   _damageType: 0
-  _searchRange: 10
+  _searchRange: 100
   _attackRange: 10
   _attackCooltime: 0.2
   _attackDelay: 0.3
+  _mpPerAttack: 0
   _useKnockback: 1
   _knockbackDuration: 0.3
   _targetLayer:

@@ -16,6 +16,7 @@ namespace Defense
 		[SerializeField] private float _attackRange;
 		[SerializeField] private float _attackCooltime;
 		[SerializeField] private float _attackDelay;
+		[SerializeField] private float _mpPerAttack;
 
 		[Header("Knockback")]
 		[SerializeField] private bool _useKnockback;
@@ -41,6 +42,7 @@ namespace Defense
 		public float AttackRange => _attackRange;
 		public float AttackCooltime => _attackCooltime;
 		public float AttackDelay => _attackDelay;
+		public float MPPerAttack => _mpPerAttack;
 		public bool UseKnockback => _useKnockback;
 		public float KnockbackDuration => _knockbackDuration;
 		public LayerMask TargetLayer => _targetLayer;

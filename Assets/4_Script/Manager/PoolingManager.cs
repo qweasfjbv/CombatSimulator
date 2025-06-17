@@ -1,11 +1,8 @@
 using Cysharp.Threading.Tasks;
 using Defense.Debugger;
 using Defense.Utils;
-using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace Defense.Manager
 {

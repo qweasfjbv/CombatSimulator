@@ -3,6 +3,7 @@ using Defense.Props;
 using IUtil;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Defense.Manager
@@ -99,7 +100,7 @@ namespace Defense.Manager
 
 			UnitController newController = Instantiate(id == 2 ? magePrefab : archerPrefab, slotList[finalIndex].transform.position, Quaternion.identity)
 				.GetComponent<UnitController>();
-			newController.InitEnemy(0, id);
+			newController.InitUnit(id);
 			slotList[finalIndex].AddUnit(newController);
 		}
 
@@ -112,23 +113,58 @@ namespace Defense.Manager
 			slotList[index].SetTower();
 		}
 
+		// Change Input, hide slots
+		[Button()]
+		private void StartStage()
+		{
+			SpawnEnemies();
+			for (int i = 0; i < slotList.Count; i++)
+			{
+				slotList[i].OnStartStage();
+			}
+		}
 
-		[Button]
-		private void StartTest()
+		// Change Input, Show slot, revive units
+		[Button()]
+		private void EndStage()
+		{
+			DespawnEnemies();
+			for (int i = 0; i < slotList.Count; i++)
+			{
+				slotList[i].OnEndStage();
+			}
+		}
+
+		private void SpawnEnemies()
 		{
 			//GetComponent<WaypointsDrawer>().DrawWaypoints(Managers.Resource.GetRouteData(0).Waypoints);
 			StartCoroutine(SpawnCoroutine());
 		}
+		private void DespawnEnemies()
+		{
+			for (int i = 0; i < enemies.Count; i++)
+			{
+				Destroy(enemies[i]);
+			}
+			enemies.Clear();
+		}
 
-
+		List<UnitController> enemies = new();
 		private IEnumerator SpawnCoroutine()
 		{
 			for (int i = 0; i < testCount; i++)
 			{
 				GameObject go = Instantiate(personPrefab, Managers.Resource.GetRouteData(0).SpawnPoint, Quaternion.identity);
-				go.GetComponent<UnitController>().InitEnemy(0, 0);
+				go.GetComponent<UnitController>().InitUnit(0);
+				enemies.Add(go.GetComponent<UnitController>());
 				yield return new WaitForSeconds(0.01f);
 			}
+		}
+
+		private int currentWave = 0;
+		public void OnGameStartButtonClicked()
+		{
+
 		}
 
 	}

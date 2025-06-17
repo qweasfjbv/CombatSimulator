@@ -223,7 +223,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4579458834010255437}
   - component: {fileID: 8904955761734073053}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: 3_Warrior_Epic
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -257,7 +257,7 @@ Animator:
   m_GameObject: {fileID: 960335524831327294}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 02ded044b8e0963439276550f50be6f9, type: 3}
-  m_Controller: {fileID: 9100000, guid: 5f1e05453b57e6e4183c018eeb3ff478, type: 2}
+  m_Controller: {fileID: 9100000, guid: 39164aad5a45b6e4fb8eec7201d8f0ad, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

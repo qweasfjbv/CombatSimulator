@@ -1,3 +1,5 @@
+using Defense.Interfaces;
+using Defense.Manager;
 using UnityEngine;
 
 namespace Defense.Controller
@@ -6,12 +8,14 @@ namespace Defense.Controller
 	{
 		public override void Attack(Transform target)
 		{
+			if (target == null || target.GetComponent<IDamagable>() == null) return;
 
+			target.GetComponent<IDamagable>().GetImmediateDamage(unitData.DamageType, unitData.StatsByLevel[0].AttackPower);
 		}
 
 		public override bool IsSameUnit(int unitId, int level)
 		{
-			throw new System.NotImplementedException();
+			return unitId == 1;
 		}
 
 		protected override void ExecuteSkill(Transform target)

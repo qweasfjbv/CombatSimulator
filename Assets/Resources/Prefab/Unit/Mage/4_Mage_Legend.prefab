@@ -191,7 +191,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5902348779852925990}
   - component: {fileID: 7467073659956366527}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: 4_Mage_Legend
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -225,7 +225,7 @@ Animator:
   m_GameObject: {fileID: 1090540453846830376}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 02ded044b8e0963439276550f50be6f9, type: 3}
-  m_Controller: {fileID: 9100000, guid: 5f1e05453b57e6e4183c018eeb3ff478, type: 2}
+  m_Controller: {fileID: 22100000, guid: 9a1df8feb9881a14caf7e6ce7c25c28c, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
