@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Defense.Debugger
+namespace Combat.Debugger
 {
     [RequireComponent(typeof(LineRenderer))]
     public class DottedLineRenderer : MonoBehaviour

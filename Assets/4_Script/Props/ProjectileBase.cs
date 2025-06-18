@@ -1,8 +1,8 @@
-using Defense.Controller;
-using Defense.Utils;
+using Combat.Controller;
+using Combat.Utils;
 using UnityEngine;
 
-namespace Defense.Props { 
+namespace Combat.Props { 
 	public class ProjectileBase : MonoBehaviour
 	{
 		private UnitController target = null;

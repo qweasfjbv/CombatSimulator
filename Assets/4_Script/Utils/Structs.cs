@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Defense.Utils
+namespace Combat.Utils
 {
 	/// <summary>
 	/// 레벨마다 달라지는 Stat 구조체
@@ -10,11 +10,11 @@ namespace Defense.Utils
 	public struct LevelStat
 	{
 		public float MaxHealth;
+		public float MaxMP;
 		public float AttackPower;
 		public float DefensePower;
 		public float CritProb;
 	}
-
 
 	[System.Serializable]
 	public class ParticleEntry
@@ -49,4 +49,12 @@ namespace Defense.Utils
 			DamageType = damageType;
 		}
 	}
+
+	public struct DamageLog
+	{
+		public int atkSlotId;
+		public int defSlotId;
+		public int atkDamage;
+	}
+
 }

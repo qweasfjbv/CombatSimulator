@@ -1,15 +1,24 @@
-using Defense.Controller;
-using Defense.Utils;
+using Combat.Controller;
+using Combat.Utils;
 using IUtil;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Defense.Props
+namespace Combat.Props
 {
+	public enum SlotDir
+	{
+		Front = 0,
+		Back = 2,
+	}
+
 	public class PlacementSlot : MonoBehaviour
 	{
 		[SerializeField, ReadOnly]
 		private List<UnitController> units = new();
+
+		private SlotDir slotDir = SlotDir.Back;
+		private int slotID = -1;
 
 		private static float[,,] relativePos = new float[4, 3, 2]
 		{
@@ -27,10 +36,10 @@ namespace Defense.Props
 			},
 		};
 
-		// HACK
-		private float towerHeight = 6.2f;
-
-		private bool isOnTower = false;
+		public void InitSlot(SlotDir dir, int slotID)
+		{
+			slotDir = dir;
+		}
 
 		private void SetStartSlot(bool on)
 		{
@@ -38,7 +47,6 @@ namespace Defense.Props
 		}
 		private void SetEndSlot(bool on)
 		{
-
 			GetComponent<Renderer>().material.color = on ? Constants.COLOR_SLOT_END : Color.white;
 		}
 
@@ -61,12 +69,6 @@ namespace Defense.Props
 			DropAllUnits();
 		}
 
-		public void SetTower()
-		{
-			isOnTower = true;
-			transform.position = new Vector3(transform.position.x, towerHeight, transform.position.z);
-			DropAllUnits();
-		}
 		public void SetUnits(List<UnitController> units)
 		{
 			if (units != null)
@@ -141,8 +143,13 @@ namespace Defense.Props
 
 		private void DropAllUnits()
 		{
-			for (int i = 0; i < units.Count; i++) { units[i].DropTo(transform.position + 
-				Constants.SLOT_WIDTH* (new Vector3(relativePos[units.Count,i,0], 0f, relativePos[units.Count,i,1]))); }
+			for (int i = 0; i < units.Count; i++)
+			{
+				units[i].SetPlayerTeam(slotDir == SlotDir.Back ? 1 : 0, slotID);
+				units[i].DropTo(transform.position + 
+					Constants.SLOT_WIDTH * 
+					(Quaternion.Euler(0, 90*(int)slotDir, 0) * new Vector3(relativePos[units.Count,i,0], 0f, relativePos[units.Count,i,1]))); 
+			}
 		}
 
 		private void PickAllUnits()

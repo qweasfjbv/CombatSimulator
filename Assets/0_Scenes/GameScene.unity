@@ -634,13 +634,16 @@ MonoBehaviour:
   - Prefab: {fileID: 6837061768053742933, guid: c041548ad5f52014d8ae27de23cf2764, type: 3}
     PoolSize: 20
     Key: 2
-  - Prefab: {fileID: 5627696518775099638, guid: 390cc74915d4a054bbd897e1885047a4, type: 3}
+  - Prefab: {fileID: 5627696518775099638, guid: 6839a8d6998e86d4282063ffdacb0c15, type: 3}
     PoolSize: 30
     Key: 3
   projectileEntries:
   - Prefab: {fileID: 1425425167484275714, guid: a1574a0310ebea247b8bcd58ce125ee3, type: 3}
     PoolSize: 10
     Key: 0
+  - Prefab: {fileID: 5220351506830713495, guid: ab3af3929ce8da7498acee300a84db46, type: 3}
+    PoolSize: 10
+    Key: 1
   dottedLinePrefab: {fileID: 6124821436783930245, guid: 9b197473d4f58f1448d524013e7353df, type: 3}
 --- !u!1 &259758430
 GameObject:
@@ -1037,7 +1040,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &332100036
 Transform:
   m_ObjectHideFlags: 0
@@ -3349,7 +3352,6 @@ MonoBehaviour:
   archerPrefab: {fileID: 1582532992317111289, guid: 3b1e8c1faed3f3e44aa0ebf280747c56, type: 3}
   slotPrefab: {fileID: 5504582280501421385, guid: ad58bd08bbf000247972d08dea8a3183, type: 3}
   timeScale: 1
-  towerIndex: 0
 --- !u!114 &1811063209
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -17,96 +17,116 @@ MonoBehaviour:
   _damageType: 0
   _searchRange: 100
   _attackRange: 10
-  _attackCooltime: 0.2
+  _attackCooltime: 0.5
   _attackDelay: 0.3
   _mpPerAttack: 0
   _useKnockback: 1
   _knockbackDuration: 0.3
   _targetLayer:
     serializedVersion: 2
-    m_Bits: 1024
+    m_Bits: 0
   _maxDetectCounts: 10
   _deathAnimDuration: 0.5
   _fadeOutDuration: 0.5
   _skillDuration: 1
   _statsByLevel:
   - MaxHealth: 100
+    MaxMP: 100
     AttackPower: 10
     DefensePower: 2
     CritProb: 0
   - MaxHealth: 0
+    MaxMP: 0
     AttackPower: 0
     DefensePower: 0
     CritProb: 0
   - MaxHealth: 0
+    MaxMP: 0
     AttackPower: 0
     DefensePower: 0
     CritProb: 0
   - MaxHealth: 0
+    MaxMP: 0
     AttackPower: 0
     DefensePower: 0
     CritProb: 0
   - MaxHealth: 0
+    MaxMP: 0
     AttackPower: 0
     DefensePower: 0
     CritProb: 0
   - MaxHealth: 0
+    MaxMP: 0
     AttackPower: 0
     DefensePower: 0
     CritProb: 0
   - MaxHealth: 0
+    MaxMP: 0
     AttackPower: 0
     DefensePower: 0
     CritProb: 0
   - MaxHealth: 0
+    MaxMP: 0
     AttackPower: 0
     DefensePower: 0
     CritProb: 0
   - MaxHealth: 0
+    MaxMP: 0
     AttackPower: 0
     DefensePower: 0
     CritProb: 0
   - MaxHealth: 0
+    MaxMP: 0
     AttackPower: 0
     DefensePower: 0
     CritProb: 0
   - MaxHealth: 0
+    MaxMP: 0
     AttackPower: 0
     DefensePower: 0
     CritProb: 0
   - MaxHealth: 0
+    MaxMP: 0
     AttackPower: 0
     DefensePower: 0
     CritProb: 0
   - MaxHealth: 0
+    MaxMP: 0
     AttackPower: 0
     DefensePower: 0
     CritProb: 0
   - MaxHealth: 0
+    MaxMP: 0
     AttackPower: 0
     DefensePower: 0
     CritProb: 0
   - MaxHealth: 0
+    MaxMP: 0
     AttackPower: 0
     DefensePower: 0
     CritProb: 0
   - MaxHealth: 0
+    MaxMP: 0
     AttackPower: 0
     DefensePower: 0
     CritProb: 0
   - MaxHealth: 0
+    MaxMP: 0
     AttackPower: 0
     DefensePower: 0
     CritProb: 0
   - MaxHealth: 0
+    MaxMP: 0
     AttackPower: 0
     DefensePower: 0
     CritProb: 0
   - MaxHealth: 0
+    MaxMP: 0
     AttackPower: 0
     DefensePower: 0
     CritProb: 0
   - MaxHealth: 0
+    MaxMP: 0
     AttackPower: 0
     DefensePower: 0
     CritProb: 0

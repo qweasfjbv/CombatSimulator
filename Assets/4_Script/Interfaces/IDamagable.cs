@@ -1,6 +1,6 @@
-using Defense.Utils;
+using Combat.Utils;
 
-namespace Defense.Interfaces
+namespace Combat.Interfaces
 {
 	public interface IDamagable
 	{

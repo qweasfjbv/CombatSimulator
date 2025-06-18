@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Defense.Manager
+namespace Combat.Manager
 {
 	public class Managers : MonoBehaviour
 	{
@@ -10,10 +10,12 @@ namespace Defense.Manager
 		/** Managers **/
 		private ResourceManager _resource = new ResourceManager();
 		private InputManager _input = new InputManager();
+		private DamageLogManager _damageLog = new DamageLogManager();
 
 		/** Properties **/
 		public static ResourceManager Resource { get { return Instance._resource; } }
 		public static InputManager Input { get { return Instance._input; } }
+		public static DamageLogManager DamageLog { get { return Instance._damageLog; } }
 
 		public void Init()
 		{
@@ -30,6 +32,7 @@ namespace Defense.Manager
 
 			s_instance._resource.Init();
 			s_instance._input.Init();
+			s_instance._damageLog.Init();
 		}
 
 

@@ -1,7 +1,7 @@
 
 using UnityEngine;
 
-namespace Defense.Utils
+namespace Combat.Utils
 {
 	public static class Constants
 	{
@@ -25,7 +25,13 @@ namespace Defense.Utils
 		public static readonly string ANIM_NAME_DEATH = "Death";
 		public static readonly string ANIM_NAME_SKILL = "Skill";
 
-		public static readonly int LAYER_SLOT = 1 << 13;
+		public static readonly int INTLAYER_SLOT = 13;
+		public static readonly int INTLAYER_PLAYER_1 = 14;
+		public static readonly int INTLAYER_PLAYER_2 = 15;
+
+		public static readonly int LAYER_SLOT = 1 << INTLAYER_SLOT;
+		public static readonly int LAYER_PLAYER_1 = 1 << INTLAYER_PLAYER_1;
+		public static readonly int LAYER_PLAYER_2 = 1 << INTLAYER_PLAYER_2;
 
 		public static readonly Color COLOR_SLOT_START = new Color(1f, 0, 0, 0.7f);
 		public static readonly Color COLOR_SLOT_END = new Color(0, 1f, 0, 0.7f);

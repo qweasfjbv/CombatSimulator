@@ -1,9 +1,9 @@
 using Cysharp.Threading.Tasks;
-using Defense.Manager;
-using Defense.Utils;
+using Combat.Manager;
+using Combat.Utils;
 using UnityEngine;
 
-namespace Defense
+namespace Combat
 {
 	public class ParticleAutoReturn : MonoBehaviour
 	{

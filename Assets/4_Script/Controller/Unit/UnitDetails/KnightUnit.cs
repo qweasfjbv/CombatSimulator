@@ -1,8 +1,7 @@
-using Defense.Interfaces;
-using Defense.Manager;
+using Combat.Interfaces;
 using UnityEngine;
 
-namespace Defense.Controller
+namespace Combat.Controller
 {
 	public class KnightUnit : UnitController
 	{
@@ -18,7 +17,7 @@ namespace Defense.Controller
 			return unitId == 1;
 		}
 
-		protected override void ExecuteSkill(Transform target)
+		protected override void ExecuteSkill(Transform[] targets, int targetCounts)
 		{
 
 		}

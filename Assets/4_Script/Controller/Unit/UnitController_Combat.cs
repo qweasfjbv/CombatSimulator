@@ -1,13 +1,14 @@
-using Defense.Utils;
+using Combat.Utils;
 using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
 using System.Threading;
 using System;
 using UnityEngine;
-using Defense.Manager;
-using Defense.Interfaces;
+using Combat.Manager;
+using Combat.Interfaces;
+using DG.Tweening;
 
-namespace Defense.Controller
+namespace Combat.Controller
 {
 	/// <summary>
 	/// UnitController의 전투 관련 인터페이스 구현 및 함수 구현
@@ -18,6 +19,7 @@ namespace Defense.Controller
 		private float currentAtk = 0f;
 		private float currentDef = 0f;
 		private float currentMP = 0f;
+		private float maxMP = float.MaxValue;
 
 		private float afterHP = 0f;
 		
@@ -33,6 +35,7 @@ namespace Defense.Controller
 			afterHP = stat.MaxHealth;
 			currentAtk = stat.AttackPower;
 			currentDef = stat.DefensePower;
+			maxMP = stat.MaxMP;
 		}
 		private void InitCombat()
 		{
@@ -42,6 +45,9 @@ namespace Defense.Controller
 			CacheStatData(unitData.StatsByLevel[0]);
 		}
 
+		private Transform attackTarget = null;
+		private int skillTargetCount = 0;
+		private Transform[] skillTargets = new Transform[10];
 
 		/** IAttackable Interface **/
 		public bool IsAbleToAttack()
@@ -57,6 +63,8 @@ namespace Defense.Controller
 				return;
 			}
 
+			attackTarget = targetTransform;
+			transform.LookAt(attackTarget);
 			animator.SetFloat(animIDSpeed, 0);
 			animator.SetTrigger(animIDAttack);
 			animator.SetFloat(animIDAttackMT, attackClipLength / unitData.AttackCooltime);
@@ -90,8 +98,8 @@ namespace Defense.Controller
 		/** ISkillable Interface **/
 		public bool IsAbleToUseSkill()
 		{
-			// HACK - 특정 레벨 이상에만 열림
-			return currentMP >= 10f;
+			// HACK - 특정 레벨 이상에만 열리도록?
+			return currentMP >= maxMP;
 		}
 		public void StartSkillAnim()
 		{
@@ -102,6 +110,11 @@ namespace Defense.Controller
 				return;
 			}
 
+			// HACK - 임시 스킬 테스트용
+			skillTargets[0] = targetTransform;
+			skillTargetCount = 1;
+
+			transform.LookAt(targetTransform);
 			animator.SetFloat(animIDSpeed, 0);
 			animator.SetTrigger(animIDSkill);
 			animator.SetFloat(animIDSkillMT, skillClipLength / unitData.SkillDuration);

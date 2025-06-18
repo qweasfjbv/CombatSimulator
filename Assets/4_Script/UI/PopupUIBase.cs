@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Defense.UI
+namespace Combat.UI
 {
 	public abstract class PopupUIBase : MonoBehaviour
 	{

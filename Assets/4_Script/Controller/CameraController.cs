@@ -1,7 +1,7 @@
-using Defense.InputActions;
+using Combat.InputActions;
 using UnityEngine;
 
-namespace Defense.Controller
+namespace Combat.Controller
 {
 	[RequireComponent(typeof(Camera))]
     public class CameraController : MonoBehaviour

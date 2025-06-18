@@ -1,5 +1,5 @@
 
-namespace Defense.Utils
+namespace Combat.Utils
 {
 	public enum GameInputState
 	{
@@ -44,5 +44,7 @@ namespace Defense.Utils
 	public enum ProjectileType
 	{
 		Arrow,
+		Lightning,
+
 	}
 }

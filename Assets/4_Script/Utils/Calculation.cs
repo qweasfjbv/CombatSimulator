@@ -1,7 +1,7 @@
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
-namespace Defense.Utils
+namespace Combat.Utils
 {
 	public static class Calculation
 	{

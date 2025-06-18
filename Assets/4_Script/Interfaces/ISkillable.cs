@@ -1,5 +1,5 @@
 
-namespace Defense.Interfaces
+namespace Combat.Interfaces
 {
 	public interface ISkillable
 	{

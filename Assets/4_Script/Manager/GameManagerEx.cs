@@ -1,12 +1,13 @@
-using Defense.Controller;
-using Defense.Props;
+using Combat.Controller;
+using Combat.Props;
+using Combat.Utils;
 using IUtil;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-namespace Defense.Manager
+namespace Combat.Manager
 {
 	public class GameManagerEx : MonoBehaviour
 	{
@@ -41,7 +42,8 @@ namespace Defense.Manager
 		[SerializeField, Range(0.5f, 3.0f)]
 		private float timeScale = 1.0f;
 
-		private List<PlacementSlot> slotList = new List<PlacementSlot>();
+		private List<PlacementSlot> player1SlotList = new List<PlacementSlot>();
+		private List<PlacementSlot> player2SlotList = new List<PlacementSlot>();
 
 		private void Awake()
 		{
@@ -57,11 +59,24 @@ namespace Defense.Manager
 		[Button]
 		private void SpawnSlots()
 		{
+			int slotID = 0;
 			for (int i = 0; i < 5; i++)
 			{
-				for (int j = -2; j <= 2; j++) 
+				for (int j = 0; j < 5; j++)
 				{
-					slotList.Add(Instantiate(slotPrefab, new Vector3(5 * j, 0.01f, 5 * (i + 1)), Quaternion.Euler(90f, 0, 0)).GetComponent<PlacementSlot>());
+					PlacementSlot slot = Instantiate(slotPrefab, new Vector3(5 * j, 0.01f, 15 + 5 * (i + 1)), Quaternion.Euler(90f, 0, 0)).GetComponent<PlacementSlot>();
+					slot.InitSlot(SlotDir.Back, slotID++);
+					player1SlotList.Add(slot);
+				}
+			}
+
+			for (int i = 0; i < 5; i++)
+			{
+				for (int j = 0; j < 5; j++)
+				{
+					PlacementSlot slot = Instantiate(slotPrefab, new Vector3(5 * j, 0.01f, -15 + 5 * (i + 1)), Quaternion.Euler(90f, 0, 0)).GetComponent<PlacementSlot>();
+					slot.InitSlot(SlotDir.Front, slotID++);
+					player2SlotList.Add(slot);
 				}
 			}
 		}
@@ -69,19 +84,22 @@ namespace Defense.Manager
 		[Button]
 		private void SpawnMage()
 		{
+			int rand = UnityEngine.Random.Range(0, 2);
+			List<PlacementSlot> playerSlotList = rand == 1 ? player1SlotList : player2SlotList;
+
 			// 뭘 Spawn할지 결정
 			int id = Random.Range(1, 3);
 			int emptyIdx = -1;
 			int sameIdx = -1;
-			for(int i=0; i<slotList.Count; i++)
+			for(int i=0; i<playerSlotList.Count; i++)
 			{
-				if (slotList[i].IsEmpty())
+				if (playerSlotList[i].IsEmpty())
 				{
 					emptyIdx = i;
 					continue;
 				}
 
-				if (slotList[i].IsAbleToAdd(id, 0))
+				if (playerSlotList[i].IsAbleToAdd(id, 0))
 				{
 					sameIdx = i;
 				}
@@ -98,29 +116,24 @@ namespace Defense.Manager
 				return;
 			}
 
-			UnitController newController = Instantiate(id == 2 ? magePrefab : archerPrefab, slotList[finalIndex].transform.position, Quaternion.identity)
+			UnitController newController = Instantiate(id == 2 ? magePrefab : archerPrefab, playerSlotList[finalIndex].transform.position, Quaternion.identity)
 				.GetComponent<UnitController>();
 			newController.InitUnit(id);
-			slotList[finalIndex].AddUnit(newController);
-		}
 
-		[SerializeField] private int towerIndex = 0;		
-		
-		[Button(nameof(towerIndex))]
-		private void SpawnTowers(int index)
-		{
-			Instantiate(towerPrefab, slotList[index].transform.position, Quaternion.identity).GetComponent<TowerController>();
-			slotList[index].SetTower();
+			playerSlotList[finalIndex].AddUnit(newController);
 		}
 
 		// Change Input, hide slots
 		[Button()]
 		private void StartStage()
 		{
-			SpawnEnemies();
-			for (int i = 0; i < slotList.Count; i++)
+			for (int i = 0; i < player1SlotList.Count; i++)
 			{
-				slotList[i].OnStartStage();
+				player1SlotList[i].OnStartStage();
+			}
+			for (int i = 0; i < player2SlotList.Count; i++)
+			{
+				player2SlotList[i].OnStartStage();
 			}
 		}
 
@@ -128,38 +141,16 @@ namespace Defense.Manager
 		[Button()]
 		private void EndStage()
 		{
-			DespawnEnemies();
-			for (int i = 0; i < slotList.Count; i++)
+			for (int i = 0; i < player1SlotList.Count; i++)
 			{
-				slotList[i].OnEndStage();
+				player1SlotList[i].OnEndStage();
+			}
+			for (int i = 0; i < player2SlotList.Count; i++)
+			{
+				player2SlotList[i].OnEndStage();
 			}
 		}
 
-		private void SpawnEnemies()
-		{
-			//GetComponent<WaypointsDrawer>().DrawWaypoints(Managers.Resource.GetRouteData(0).Waypoints);
-			StartCoroutine(SpawnCoroutine());
-		}
-		private void DespawnEnemies()
-		{
-			for (int i = 0; i < enemies.Count; i++)
-			{
-				Destroy(enemies[i]);
-			}
-			enemies.Clear();
-		}
-
-		List<UnitController> enemies = new();
-		private IEnumerator SpawnCoroutine()
-		{
-			for (int i = 0; i < testCount; i++)
-			{
-				GameObject go = Instantiate(personPrefab, Managers.Resource.GetRouteData(0).SpawnPoint, Quaternion.identity);
-				go.GetComponent<UnitController>().InitUnit(0);
-				enemies.Add(go.GetComponent<UnitController>());
-				yield return new WaitForSeconds(0.01f);
-			}
-		}
 
 		private int currentWave = 0;
 		public void OnGameStartButtonClicked()

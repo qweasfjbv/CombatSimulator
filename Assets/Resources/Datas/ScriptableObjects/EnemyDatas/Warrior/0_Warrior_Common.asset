@@ -31,82 +31,102 @@ MonoBehaviour:
   _skillDuration: 1
   _statsByLevel:
   - MaxHealth: 100
+    MaxMP: 100
     AttackPower: 1000
     DefensePower: 2
     CritProb: 0
   - MaxHealth: 0
+    MaxMP: 0
     AttackPower: 0
     DefensePower: 0
     CritProb: 0
   - MaxHealth: 0
+    MaxMP: 0
     AttackPower: 0
     DefensePower: 0
     CritProb: 0
   - MaxHealth: 0
+    MaxMP: 0
     AttackPower: 0
     DefensePower: 0
     CritProb: 0
   - MaxHealth: 0
+    MaxMP: 0
     AttackPower: 0
     DefensePower: 0
     CritProb: 0
   - MaxHealth: 0
+    MaxMP: 0
     AttackPower: 0
     DefensePower: 0
     CritProb: 0
   - MaxHealth: 0
+    MaxMP: 0
     AttackPower: 0
     DefensePower: 0
     CritProb: 0
   - MaxHealth: 0
+    MaxMP: 0
     AttackPower: 0
     DefensePower: 0
     CritProb: 0
   - MaxHealth: 0
+    MaxMP: 0
     AttackPower: 0
     DefensePower: 0
     CritProb: 0
   - MaxHealth: 0
+    MaxMP: 0
     AttackPower: 0
     DefensePower: 0
     CritProb: 0
   - MaxHealth: 0
+    MaxMP: 0
     AttackPower: 0
     DefensePower: 0
     CritProb: 0
   - MaxHealth: 0
+    MaxMP: 0
     AttackPower: 0
     DefensePower: 0
     CritProb: 0
   - MaxHealth: 0
+    MaxMP: 0
     AttackPower: 0
     DefensePower: 0
     CritProb: 0
   - MaxHealth: 0
+    MaxMP: 0
     AttackPower: 0
     DefensePower: 0
     CritProb: 0
   - MaxHealth: 0
+    MaxMP: 0
     AttackPower: 0
     DefensePower: 0
     CritProb: 0
   - MaxHealth: 0
+    MaxMP: 0
     AttackPower: 0
     DefensePower: 0
     CritProb: 0
   - MaxHealth: 0
+    MaxMP: 0
     AttackPower: 0
     DefensePower: 0
     CritProb: 0
   - MaxHealth: 0
+    MaxMP: 0
     AttackPower: 0
     DefensePower: 0
     CritProb: 0
   - MaxHealth: 0
+    MaxMP: 0
     AttackPower: 0
     DefensePower: 0
     CritProb: 0
   - MaxHealth: 0
+    MaxMP: 0
     AttackPower: 0
     DefensePower: 0
     CritProb: 0

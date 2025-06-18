@@ -1,7 +1,7 @@
-using Defense.Props;
+using Combat.Props;
 using UnityEngine;
 
-namespace Defense.UI
+namespace Combat.UI
 {
 	public class SlotPopup : PopupUIBase
 	{

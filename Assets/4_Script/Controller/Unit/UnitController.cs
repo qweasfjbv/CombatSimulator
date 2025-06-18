@@ -1,13 +1,13 @@
 using System.Collections.Generic;
 using UnityEngine;
-using Defense.Utils;
-using Defense.Manager;
-using Defense.Interfaces;
+using Combat.Utils;
+using Combat.Manager;
+using Combat.Interfaces;
 using IUtil;
 using DG.Tweening;
-using Defense.Props;
+using Combat.Props;
 
-namespace Defense.Controller
+namespace Combat.Controller
 {
 	[RequireComponent(typeof(Animator))]
 	[RequireComponent(typeof(Collider))]
@@ -32,6 +32,9 @@ namespace Defense.Controller
 		private PlacementSlot mySlot = null;
 		public PlacementSlot MySlot { get => mySlot; set => mySlot = value; }
 
+		private int targetLayer = 0;
+		private int mySlotID = -1;
+
 		private float attackClipLength = 0f;
 		private float damagedClipLength = 0f;
 		private float deathClipLength = 0f;
@@ -51,10 +54,11 @@ namespace Defense.Controller
 		private float currentAttackCooltime = 0f;
 		private bool isChasing = false;
 		private bool isAttacking = false;
+		private bool isInGame = false;			// Wait for game start
 
 		public abstract bool IsSameUnit(int unitId, int rarity);
 		public abstract void Attack(Transform target);
-		protected abstract void ExecuteSkill(Transform target);
+		protected abstract void ExecuteSkill(Transform[] targets, int targetCounts);
 
 		private void Awake()
 		{
@@ -78,10 +82,12 @@ namespace Defense.Controller
 		}
 
 		[Header("DEBUG")]
-		public int enemyId;
+		[ReadOnly] public int enemyId;
 
 		private void Update()
 		{
+			if (!isInGame) return;
+
 			if (unitData == null) return;
 			UpdateCooltimeTick();
 			UpdateKnockbackRemainedTime();
@@ -99,16 +105,15 @@ namespace Defense.Controller
 
 			if (isAttacking)
 			{
-				if (IsAbleToAttack())
+				if (!IsAbleToAttack()) return;
+				
+				if (IsAbleToUseSkill())
 				{
-					if (IsAbleToUseSkill())
-					{
-						StartSkillAnim();
-					}
-					else
-					{
-						StartAttackAnim();
-					}
+					StartSkillAnim();
+				}
+				else
+				{
+					StartAttackAnim();
 				}
 			}
 			else if (isChasing)
@@ -117,19 +122,37 @@ namespace Defense.Controller
 			}
 		}
 
-		[Button(nameof(enemyId))]
-		public void InitUnit(int enemyId)
+		/// <summary>
+		/// Unit을 초기화합니다.
+		/// </summary>
+		public void InitUnit(int unitId)
 		{
-			unitData = Managers.Resource.GetEnemyData(enemyId);
+			unitData = Managers.Resource.GetUnitData(unitId);
 			CacheStatData(unitData.StatsByLevel[0]);
 
 			targets = new Collider[unitData.MaxDetectCounts];
+		}
+		public void SetPlayerTeam(int playerIdx, int slotID)
+		{
+			mySlotID = slotID;
+
+			if (playerIdx == 0)
+			{
+				gameObject.layer = Constants.INTLAYER_PLAYER_1;
+				targetLayer = Constants.LAYER_PLAYER_2;
+			}
+			else if (playerIdx == 1)
+			{
+				gameObject.layer = Constants.INTLAYER_PLAYER_2;
+				targetLayer = Constants.LAYER_PLAYER_1;
+			}
+			else Debug.LogError("Unit Initizlization - wrong parameter \n `playerIdx` must be 0 or 1.");
 		}
 
 		private int targetCounts = 0;
 		private void CheckNearbyTarget()
 		{
-			targetCounts = Physics.OverlapSphereNonAlloc(transform.position, unitData.SearchRange, targets, unitData.TargetLayer);
+			targetCounts = Physics.OverlapSphereNonAlloc(transform.position, unitData.SearchRange, targets, targetLayer);
 			if (targetCounts > 0)
 			{
 				float minDistance = float.MaxValue;
@@ -153,13 +176,11 @@ namespace Defense.Controller
 				targetTransform = closestTarget;
 				if (targetTransform == null) return;
 				isChasing = true;
-				isAttacking = false;
 			}
 			else
 			{
 				targetTransform = null;
 				isChasing = false;
-				isAttacking = false;
 			}
 
 			if (targetTransform != null && Vector3.SqrMagnitude(transform.position- targetTransform.position) <= unitData.AttackRange* unitData.AttackRange)

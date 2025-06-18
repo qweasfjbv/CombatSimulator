@@ -1,10 +1,10 @@
-using Defense.Controller;
-using Defense.InputActions;
-using Defense.Props;
-using Defense.Utils;
+using Combat.Controller;
+using Combat.InputActions;
+using Combat.Props;
+using Combat.Utils;
 using UnityEngine;
 
-namespace Defense.Manager
+namespace Combat.Manager
 {
 	public class InputManager
 	{

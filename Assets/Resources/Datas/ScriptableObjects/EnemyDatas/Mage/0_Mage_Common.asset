@@ -18,7 +18,7 @@ MonoBehaviour:
   _searchRange: 100
   _attackRange: 10
   _attackCooltime: 1
-  _attackDelay: 0
+  _attackDelay: 0.25
   _mpPerAttack: 0
   _useKnockback: 1
   _knockbackDuration: 0.3
@@ -31,82 +31,102 @@ MonoBehaviour:
   _skillDuration: 1
   _statsByLevel:
   - MaxHealth: 100
+    MaxMP: 50
     AttackPower: 10
     DefensePower: 2
-    CritProb: 0
+    CritProb: 100
   - MaxHealth: 0
+    MaxMP: 0
     AttackPower: 0
     DefensePower: 0
     CritProb: 0
   - MaxHealth: 0
+    MaxMP: 0
     AttackPower: 0
     DefensePower: 0
     CritProb: 0
   - MaxHealth: 0
+    MaxMP: 0
     AttackPower: 0
     DefensePower: 0
     CritProb: 0
   - MaxHealth: 0
+    MaxMP: 0
     AttackPower: 0
     DefensePower: 0
     CritProb: 0
   - MaxHealth: 0
+    MaxMP: 0
     AttackPower: 0
     DefensePower: 0
     CritProb: 0
   - MaxHealth: 0
+    MaxMP: 0
     AttackPower: 0
     DefensePower: 0
     CritProb: 0
   - MaxHealth: 0
+    MaxMP: 0
     AttackPower: 0
     DefensePower: 0
     CritProb: 0
   - MaxHealth: 0
+    MaxMP: 0
     AttackPower: 0
     DefensePower: 0
     CritProb: 0
   - MaxHealth: 0
+    MaxMP: 0
     AttackPower: 0
     DefensePower: 0
     CritProb: 0
   - MaxHealth: 0
+    MaxMP: 0
     AttackPower: 0
     DefensePower: 0
     CritProb: 0
   - MaxHealth: 0
+    MaxMP: 0
     AttackPower: 0
     DefensePower: 0
     CritProb: 0
   - MaxHealth: 0
+    MaxMP: 0
     AttackPower: 0
     DefensePower: 0
     CritProb: 0
   - MaxHealth: 0
+    MaxMP: 0
     AttackPower: 0
     DefensePower: 0
     CritProb: 0
   - MaxHealth: 0
+    MaxMP: 0
     AttackPower: 0
     DefensePower: 0
     CritProb: 0
   - MaxHealth: 0
+    MaxMP: 0
     AttackPower: 0
     DefensePower: 0
     CritProb: 0
   - MaxHealth: 0
+    MaxMP: 0
     AttackPower: 0
     DefensePower: 0
     CritProb: 0
   - MaxHealth: 0
+    MaxMP: 0
     AttackPower: 0
     DefensePower: 0
     CritProb: 0
   - MaxHealth: 0
+    MaxMP: 0
     AttackPower: 0
     DefensePower: 0
     CritProb: 0
   - MaxHealth: 0
+    MaxMP: 0
     AttackPower: 0
     DefensePower: 0
     CritProb: 0

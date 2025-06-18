@@ -1,8 +1,9 @@
-using Defense.Interfaces;
-using Defense.Manager;
+using Combat.Interfaces;
+using Combat.Manager;
+using Combat.VFX;
 using UnityEngine;
 
-namespace Defense.Controller
+namespace Combat.Controller
 {
 	public class ArcherUnit : UnitController
 	{
@@ -11,8 +12,8 @@ namespace Defense.Controller
 			if (target == null || target.GetComponent<IDamagable>() == null) return;
 
 			target.GetComponent<IDamagable>().ReserveDamage(unitData.DamageType, unitData.StatsByLevel[0].AttackPower, unitData.AttackDelay);
-			ArrowController ac = PoolingManager.Instance.Spawn(Utils.ProjectileType.Arrow, unitData.AttackDelay + 2 * Time.deltaTime).GetComponent<ArrowController>();
-			ac.ShootArrow(transform.position, target, 6f, unitData.AttackDelay).Forget();
+			TrailBase tb = PoolingManager.Instance.Spawn(Utils.ProjectileType.Arrow, unitData.AttackDelay).GetComponent<TrailBase>();
+			tb.SetTrail(transform.position, target, unitData.AttackDelay);
 		}
 
 		public override bool IsSameUnit(int unitId, int level)
@@ -20,7 +21,7 @@ namespace Defense.Controller
 			return unitId == 1;
 		}
 
-		protected override void ExecuteSkill(Transform target)
+		protected override void ExecuteSkill(Transform[] targets, int targetCounts)
 		{
 
 		}

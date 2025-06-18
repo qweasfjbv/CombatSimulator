@@ -1,7 +1,7 @@
-using Defense.Utils;
+using Combat.Utils;
 using UnityEngine;
 
-namespace Defense
+namespace Combat
 {
 	[CreateAssetMenu(fileName = "EnemyData", menuName = "GameData/Enemy Data")]
 	public class UnitData : ScriptableObject

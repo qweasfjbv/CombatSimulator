@@ -1,7 +1,7 @@
 
 using UnityEngine;
 
-namespace Defense.Manager
+namespace Combat.Manager
 {
 	public class ResourceManager
 	{
@@ -15,40 +15,37 @@ namespace Defense.Manager
 		private string routeDataPath = "Datas/ScriptableObjects/RouteDatas/";
 		private string playerDataPath = "Datas/ScriptableObjects/PlayerDatas/";
 
-		private UnitData[][] enemyData;
+		private UnitData[][] unitData;
 		private UnitData[] playerData;
 		private RouteData[] routeData;
 
 		public void Init()
 		{
 			int rows = enemyDataPath.Length;
-			enemyData = new UnitData[rows][];
+			unitData = new UnitData[rows][];
 
 			for (int i = 0; i < rows; i++)
 			{
 				UnitData[] data = Resources.LoadAll<UnitData>(enemyDataPath[i]);
 				if (data != null && data.Length > 0)
 				{
-					enemyData[i] = data;
+					unitData[i] = data;
 				}
 				else
 				{
 					Debug.LogWarning($"Failed to load UnitData at path: {enemyDataPath[i]}");
-					enemyData[i] = new UnitData[0];
+					unitData[i] = new UnitData[0];
 				}
 			}
 			playerData = Resources.LoadAll<UnitData>(playerDataPath);
 			routeData = Resources.LoadAll<RouteData>(routeDataPath);
 		}
 
-		public UnitData GetEnemyData(int idx)
+		public UnitData GetUnitData(int idx)
 		{
-			return enemyData[idx][0];
+			return unitData[idx][0];
 		}
-		public UnitData GetPlayerData(int idx)
-		{
-			return playerData[idx];
-		}
+
 		public RouteData GetRouteData(int idx)
 		{
 			return routeData[idx];

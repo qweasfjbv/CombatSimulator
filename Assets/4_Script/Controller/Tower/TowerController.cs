@@ -1,8 +1,8 @@
-using Defense.Manager;
-using Defense.Utils;
+using Combat.Manager;
+using Combat.Utils;
 using UnityEngine;
 
-namespace Defense.Controller
+namespace Combat.Controller
 {
 	public class TowerController : MonoBehaviour
 	{

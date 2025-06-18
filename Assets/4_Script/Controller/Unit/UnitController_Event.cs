@@ -1,5 +1,7 @@
 
-namespace Defense.Controller
+using NUnit.Framework.Constraints;
+
+namespace Combat.Controller
 {
 	/// <summary>
 	/// UnitController의 이벤트 관련 함수들을 담습니다.
@@ -10,12 +12,19 @@ namespace Defense.Controller
 		/** Animation Events **/
 		public void OnAttack()
 		{
-			Attack(targetTransform);
+			if (attackTarget == null) return;
+			Attack(attackTarget);
 			currentMP += unitData.MPPerAttack;
 		}
+
 		public void OnSkill()
 		{
-			ExecuteSkill(targetTransform);
+			ExecuteSkill(skillTargets, skillTargetCount);
+		}
+
+		public void OnEndAttack()
+		{
+			isAttacking = false;
 		}
 
 		/** Game Cycle Events **/
@@ -24,12 +33,13 @@ namespace Defense.Controller
 			gameObject.SetActive(true);
 			InitCombat();
 
+			isInGame = false;
 			isAttacking = false;
 			isChasing = false;
 		}
 		public void OnStartStage()
 		{
-
+			isInGame = true;
 		}
 
 	}

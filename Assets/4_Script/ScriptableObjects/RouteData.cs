@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-namespace Defense
+namespace Combat
 {
 	[CreateAssetMenu(fileName = "RouteData", menuName = "GameData/Route Data")]
 	public class RouteData : ScriptableObject
