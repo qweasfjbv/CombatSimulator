@@ -15,7 +15,7 @@ using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Utilities;
 
-namespace Combat.InputActions
+namespace Autobattler.InputActions
 {
     public partial class @PlayerControl: IInputActionCollection2, IDisposable
     {

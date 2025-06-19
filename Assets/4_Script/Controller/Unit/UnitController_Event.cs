@@ -1,7 +1,6 @@
 
-using NUnit.Framework.Constraints;
 
-namespace Combat.Controller
+namespace Autobattler.Controller
 {
 	/// <summary>
 	/// UnitController의 이벤트 관련 함수들을 담습니다.

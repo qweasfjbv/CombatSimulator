@@ -24,7 +24,7 @@ MonoBehaviour:
   _knockbackDuration: 0.3
   _targetLayer:
     serializedVersion: 2
-    m_Bits: 1024
+    m_Bits: 0
   _maxDetectCounts: 10
   _deathAnimDuration: 0.5
   _fadeOutDuration: 0.5
@@ -32,7 +32,7 @@ MonoBehaviour:
   _statsByLevel:
   - MaxHealth: 100
     MaxMP: 50
-    AttackPower: 10
+    AttackPower: 1
     DefensePower: 2
     CritProb: 100
   - MaxHealth: 0

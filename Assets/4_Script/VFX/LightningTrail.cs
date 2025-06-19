@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Combat.VFX
+namespace Autobattler.VFX
 {
 	public class LightningTrail : TrailBase
 	{

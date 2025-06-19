@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Combat.Manager
+namespace Autobattler.Manager
 {
 	public class UIManager : MonoBehaviour
 	{

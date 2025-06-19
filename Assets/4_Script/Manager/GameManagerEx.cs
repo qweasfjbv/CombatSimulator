@@ -1,13 +1,10 @@
-using Combat.Controller;
-using Combat.Props;
-using Combat.Utils;
+using Autobattler.Controller;
+using Autobattler.Props;
 using IUtil;
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
-namespace Combat.Manager
+namespace Autobattler.Manager
 {
 	public class GameManagerEx : MonoBehaviour
 	{
@@ -32,10 +29,6 @@ namespace Combat.Manager
 
 		[SerializeField] private GameObject personPrefab;
 		[SerializeField] private int testCount;
-
-		[SerializeField] private GameObject towerPrefab;
-		[SerializeField] private GameObject magePrefab;
-		[SerializeField] private GameObject archerPrefab;
 
 		[SerializeField] private GameObject slotPrefab;
 
@@ -81,6 +74,7 @@ namespace Combat.Manager
 			}
 		}
 
+		int randId = 0;
 		[Button]
 		private void SpawnMage()
 		{
@@ -88,7 +82,7 @@ namespace Combat.Manager
 			List<PlacementSlot> playerSlotList = rand == 1 ? player1SlotList : player2SlotList;
 
 			// 뭘 Spawn할지 결정
-			int id = Random.Range(1, 3);
+			int id = (randId++) % 4;
 			int emptyIdx = -1;
 			int sameIdx = -1;
 			for(int i=0; i<playerSlotList.Count; i++)
@@ -116,7 +110,7 @@ namespace Combat.Manager
 				return;
 			}
 
-			UnitController newController = Instantiate(id == 2 ? magePrefab : archerPrefab, playerSlotList[finalIndex].transform.position, Quaternion.identity)
+			UnitController newController = Instantiate(Managers.Resource.GetUnitPrefab(id, 0), playerSlotList[finalIndex].transform.position, Quaternion.identity)
 				.GetComponent<UnitController>();
 			newController.InitUnit(id);
 

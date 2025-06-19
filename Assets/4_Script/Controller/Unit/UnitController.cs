@@ -1,13 +1,13 @@
 using System.Collections.Generic;
 using UnityEngine;
-using Combat.Utils;
-using Combat.Manager;
-using Combat.Interfaces;
+using Autobattler.Utils;
+using Autobattler.Manager;
+using Autobattler.Interfaces;
 using IUtil;
 using DG.Tweening;
-using Combat.Props;
+using Autobattler.Props;
 
-namespace Combat.Controller
+namespace Autobattler.Controller
 {
 	[RequireComponent(typeof(Animator))]
 	[RequireComponent(typeof(Collider))]
@@ -135,6 +135,9 @@ namespace Combat.Controller
 		public void SetPlayerTeam(int playerIdx, int slotID)
 		{
 			mySlotID = slotID;
+			
+			Quaternion lookRot = Quaternion.LookRotation(new Vector3(0, 0, playerIdx == 0 ? 1 : -1));
+			transform.rotation = lookRot;
 
 			if (playerIdx == 0)
 			{
@@ -162,7 +165,7 @@ namespace Combat.Controller
 				{
 					if (targets[i] == null) break; 
 					if (targets[i].GetComponent<IDamagable>() == null ||
-					!targets[i].GetComponent<IDamagable>().IsAbleToTargeted()) continue;
+					!targets[i].GetComponent<IDamagable>().IsAbleToTargeted(unitData.AttackDelay)) continue;
 
 					float distance = Vector3.SqrMagnitude(transform.position - targets[i].transform.position);
 

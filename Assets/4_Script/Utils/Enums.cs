@@ -1,5 +1,5 @@
 
-namespace Combat.Utils
+namespace Autobattler.Utils
 {
 	public enum GameInputState
 	{

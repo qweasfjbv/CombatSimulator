@@ -1,13 +1,13 @@
-using Combat.Props;
-using Combat.UI;
-using Combat.Utils;
+using Autobattler.Props;
+using Autobattler.UI;
+using Autobattler.Utils;
 using IUtil;
 using System.Collections.Generic;
 using UI.Items;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Combat.Manager
+namespace Autobattler.Manager
 {
 	public class GameUIManager : MonoBehaviour
 	{

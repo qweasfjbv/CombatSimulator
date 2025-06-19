@@ -1,15 +1,51 @@
-using Combat.Utils;
+using Autobattler.Utils;
 using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
 using System.Threading;
 using System;
 using UnityEngine;
-using Combat.Manager;
-using Combat.Interfaces;
-using DG.Tweening;
+using Autobattler.Manager;
 
-namespace Combat.Controller
+namespace Autobattler.Controller
 {
+
+	public class ReservationKey : IComparable<ReservationKey>
+	{
+		public int dID;
+		public float time;
+
+		public ReservationKey(int dID, float time)
+		{
+			this.dID = dID;
+			this.time = time;
+		}
+
+		public int CompareTo(ReservationKey other)
+		{
+			if (other == null) return 1;
+
+			int timeComparison = time.CompareTo(other.time);
+			if (timeComparison != 0)
+				return timeComparison;
+
+			return dID.CompareTo(other.dID);
+		}
+	}
+
+	public class DamageReservation
+	{
+		public float damage;
+		public DamageType type;
+		public CancellationTokenSource cancellationTokenSource;
+
+		public DamageReservation(CancellationTokenSource cancellationTokenSource, float damage, DamageType type)
+		{
+			this.cancellationTokenSource = cancellationTokenSource;
+			this.damage = damage;
+			this.type = type;
+		}
+	}
+
 	/// <summary>
 	/// UnitController의 전투 관련 인터페이스 구현 및 함수 구현
 	/// </summary>
@@ -20,10 +56,8 @@ namespace Combat.Controller
 		private float currentDef = 0f;
 		private float currentMP = 0f;
 		private float maxMP = float.MaxValue;
-
-		private float afterHP = 0f;
 		
-		private Dictionary<int, CancellationTokenSource> reservedDamage = new();
+		private SortedDictionary<ReservationKey, DamageReservation> reservedDamage = new();
 		private int damageId = 0;
 
 		private bool isEnemyDead = false;
@@ -32,7 +66,6 @@ namespace Combat.Controller
 		{
 			damageId = 0;
 			currentHP = stat.MaxHealth;
-			afterHP = stat.MaxHealth;
 			currentAtk = stat.AttackPower;
 			currentDef = stat.DefensePower;
 			maxMP = stat.MaxMP;
@@ -48,6 +81,7 @@ namespace Combat.Controller
 		private Transform attackTarget = null;
 		private int skillTargetCount = 0;
 		private Transform[] skillTargets = new Transform[10];
+
 
 		/** IAttackable Interface **/
 		public bool IsAbleToAttack()
@@ -77,22 +111,42 @@ namespace Combat.Controller
 				currentAttackCooltime -= Time.deltaTime;
 		}
 
+		private bool isTargetFlagDirty = false;
+		private bool isAbleToTargeted = false;
+
 		/** IDamagable Interface **/
-		public bool IsAbleToTargeted()
+		public bool IsAbleToTargeted(float duration)
 		{
-			return afterHP > 0f;
+			if (currentHP <= 0f) return false;
+			if (isTargetFlagDirty) return isAbleToTargeted;
+			
+			float tmpHP = currentHP;
+			float lastTime = 0;
+
+			foreach (var res in reservedDamage)
+			{
+				tmpHP -= Calculation.CalculateDamage(unitData.StatsByLevel[0], res.Value.type, res.Value.damage);
+				if (tmpHP <= 0f)
+				{
+					lastTime = res.Key.time;
+					break;
+				}
+			}
+			
+			isAbleToTargeted = (tmpHP > 0f || (tmpHP <= 0f && Time.time + duration < lastTime));
+			isTargetFlagDirty = false;
+			return isAbleToTargeted;
 		}
 		public void ReserveDamage(DamageType type, float damage, float duration)
 		{
 			if (isEnemyDead) return;
 
-			float trueDamage = Calculation.CalculateDamage(unitData.StatsByLevel[0], type, damage);
-			afterHP -= trueDamage;
-
 			var cts = new CancellationTokenSource();
-			reservedDamage[damageId] = cts;
+			ReservationKey resKey = new ReservationKey(++damageId, Time.time + duration);
+			reservedDamage[resKey] = new DamageReservation(cts, damage, type);
+			isTargetFlagDirty = true;
 
-			DelayedDamage(type, trueDamage, duration, cts.Token).Forget();
+			DelayedDamage(type, damage, duration, resKey).Forget();
 		}
 
 		/** ISkillable Interface **/
@@ -127,14 +181,14 @@ namespace Combat.Controller
 		/// Delay 된 데미지를 입히는 함수
 		/// 취소 시 catch 부분 실행됨
 		/// </summary>
-		private async UniTaskVoid DelayedDamage(DamageType type, float damage, float duration, CancellationToken ct)
+		private async UniTaskVoid DelayedDamage(DamageType type, float damage, float duration, ReservationKey resKey)
 		{
 			try
 			{
 				await UniTask.Delay((int)(duration * 1000));
 
-				if (!ct.IsCancellationRequested)
-					GetDelayedDamage(type, damage);
+				if (!reservedDamage[resKey].cancellationTokenSource.IsCancellationRequested)
+					GetImmediateDamage(type, damage);
 			}
 			catch (OperationCanceledException)
 			{
@@ -142,25 +196,15 @@ namespace Combat.Controller
 			}
 			finally
 			{
-				reservedDamage.Remove(damageId);
+				reservedDamage.Remove(resKey);
 			}
 		}
-		public void GetDelayedDamage(DamageType type, float trueDamage)
-		{
-			if (isEnemyDead) return;
 
-			currentHP -= trueDamage; 
-
-			UIManager.Instance.GameUI.ShowDamage(transform.position + Vector3.up * 1.8f, trueDamage, type, HitResultType.Normal);
-			CheckIfDied();
-			ApplyKnockback();
-		}
 		public void GetImmediateDamage(DamageType type, float damage)
 		{
 			if (isEnemyDead) return;
 
 			float trueDamage = Calculation.CalculateDamage(unitData.StatsByLevel[0], type, damage);
-			afterHP -= trueDamage;
 			currentHP -= trueDamage;
 
 			UIManager.Instance.GameUI.ShowDamage(transform.position + Vector3.up * 1.8f, trueDamage, type, HitResultType.Normal);
@@ -225,8 +269,8 @@ namespace Combat.Controller
 
 		private void OnDestroy()
 		{
-			foreach (var cts in reservedDamage.Values)
-				cts.Cancel();
+			foreach (var res in reservedDamage.Values)
+				res.cancellationTokenSource.Cancel();
 		}
 	}
 }

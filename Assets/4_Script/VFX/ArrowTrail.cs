@@ -1,8 +1,8 @@
-using Combat.Utils;
+using Autobattler.Utils;
 using UnityEngine;
-using Combat.VFX;
+using Autobattler.VFX;
 
-namespace Combat.Controller
+namespace Autobattler.Controller
 {
 	public class ArrowTrail : TrailBase
 	{

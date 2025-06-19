@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Combat.Utils
+namespace Autobattler.Utils
 {
 	/// <summary>
 	/// 레벨마다 달라지는 Stat 구조체

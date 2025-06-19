@@ -1,7 +1,7 @@
-using Combat.Utils;
+using Autobattler.Utils;
 using UnityEngine;
 
-namespace Combat
+namespace Autobattler
 {
 	[CreateAssetMenu(fileName = "EnemyData", menuName = "GameData/Enemy Data")]
 	public class UnitData : ScriptableObject

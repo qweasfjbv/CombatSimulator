@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdc70bb699fd6454192bfd6676edd02e, type: 3}
   m_Name: 0_Shielder_Common
   m_EditorClassIdentifier: 
-  _moveSpeed: 1.5
+  _moveSpeed: 5
   _rotationSpeed: 10
   _damageType: 0
   _searchRange: 100
@@ -24,89 +24,109 @@ MonoBehaviour:
   _knockbackDuration: 0
   _targetLayer:
     serializedVersion: 2
-    m_Bits: 1024
+    m_Bits: 0
   _maxDetectCounts: 5
   _deathAnimDuration: 0.5
   _fadeOutDuration: 0.5
   _skillDuration: 1
   _statsByLevel:
   - MaxHealth: 20
-    AttackPower: 5
+    MaxMP: 0
+    AttackPower: 1
     DefensePower: 0
     CritProb: 0
   - MaxHealth: 0
+    MaxMP: 0
     AttackPower: 0
     DefensePower: 0
     CritProb: 0
   - MaxHealth: 0
+    MaxMP: 0
     AttackPower: 0
     DefensePower: 0
     CritProb: 0
   - MaxHealth: 0
+    MaxMP: 0
     AttackPower: 0
     DefensePower: 0
     CritProb: 0
   - MaxHealth: 0
+    MaxMP: 0
     AttackPower: 0
     DefensePower: 0
     CritProb: 0
   - MaxHealth: 0
+    MaxMP: 0
     AttackPower: 0
     DefensePower: 0
     CritProb: 0
   - MaxHealth: 0
+    MaxMP: 0
     AttackPower: 0
     DefensePower: 0
     CritProb: 0
   - MaxHealth: 0
+    MaxMP: 0
     AttackPower: 0
     DefensePower: 0
     CritProb: 0
   - MaxHealth: 0
+    MaxMP: 0
     AttackPower: 0
     DefensePower: 0
     CritProb: 0
   - MaxHealth: 0
+    MaxMP: 0
     AttackPower: 0
     DefensePower: 0
     CritProb: 0
   - MaxHealth: 0
+    MaxMP: 0
     AttackPower: 0
     DefensePower: 0
     CritProb: 0
   - MaxHealth: 0
+    MaxMP: 0
     AttackPower: 0
     DefensePower: 0
     CritProb: 0
   - MaxHealth: 0
+    MaxMP: 0
     AttackPower: 0
     DefensePower: 0
     CritProb: 0
   - MaxHealth: 0
+    MaxMP: 0
     AttackPower: 0
     DefensePower: 0
     CritProb: 0
   - MaxHealth: 0
+    MaxMP: 0
     AttackPower: 0
     DefensePower: 0
     CritProb: 0
   - MaxHealth: 0
+    MaxMP: 0
     AttackPower: 0
     DefensePower: 0
     CritProb: 0
   - MaxHealth: 0
+    MaxMP: 0
     AttackPower: 0
     DefensePower: 0
     CritProb: 0
   - MaxHealth: 0
+    MaxMP: 0
     AttackPower: 0
     DefensePower: 0
     CritProb: 0
   - MaxHealth: 0
+    MaxMP: 0
     AttackPower: 0
     DefensePower: 0
     CritProb: 0
   - MaxHealth: 0
+    MaxMP: 0
     AttackPower: 0
     DefensePower: 0
     CritProb: 0

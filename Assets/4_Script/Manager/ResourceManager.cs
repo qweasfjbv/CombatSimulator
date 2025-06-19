@@ -1,7 +1,7 @@
 
 using UnityEngine;
 
-namespace Combat.Manager
+namespace Autobattler.Manager
 {
 	public class ResourceManager
 	{
@@ -11,6 +11,12 @@ namespace Combat.Manager
 			"Datas/ScriptableObjects/EnemyDatas/Mage/",
 			"Datas/ScriptableObjects/EnemyDatas/Shielder/"
 		};
+		private string[] enemyPrefabPath = new string[] {
+			"Prefab/Unit/Warrior/",
+			"Prefab/Unit/Archer/",
+			"Prefab/Unit/Mage/",
+			"Prefab/Unit/Shielder/"
+		};
 
 		private string routeDataPath = "Datas/ScriptableObjects/RouteDatas/";
 		private string playerDataPath = "Datas/ScriptableObjects/PlayerDatas/";
@@ -19,26 +25,35 @@ namespace Combat.Manager
 		private UnitData[] playerData;
 		private RouteData[] routeData;
 
+		private GameObject[][] unitPrefabs;
+
 		public void Init()
 		{
 			int rows = enemyDataPath.Length;
 			unitData = new UnitData[rows][];
+			unitPrefabs = new GameObject[rows][];
 
 			for (int i = 0; i < rows; i++)
 			{
 				UnitData[] data = Resources.LoadAll<UnitData>(enemyDataPath[i]);
-				if (data != null && data.Length > 0)
+				GameObject[] prefabs = Resources.LoadAll<GameObject>(enemyPrefabPath[i]);
+
+				if (data != null && data.Length > 0) unitData[i] = data;
+				if (prefabs != null && prefabs.Length > 0) unitPrefabs[i] = prefabs;
+
+				if (data == null || prefabs == null)
 				{
-					unitData[i] = data;
-				}
-				else
-				{
-					Debug.LogWarning($"Failed to load UnitData at path: {enemyDataPath[i]}");
-					unitData[i] = new UnitData[0];
+					Debug.LogWarning("ResourceManager - There is no resources to load!");
 				}
 			}
+
 			playerData = Resources.LoadAll<UnitData>(playerDataPath);
 			routeData = Resources.LoadAll<RouteData>(routeDataPath);
+		}
+
+		public GameObject GetUnitPrefab(int index, int level)
+		{
+			return unitPrefabs[index][level];
 		}
 
 		public UnitData GetUnitData(int idx)

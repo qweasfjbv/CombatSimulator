@@ -1,10 +1,10 @@
-using Combat.Controller;
-using Combat.InputActions;
-using Combat.Props;
-using Combat.Utils;
+using Autobattler.Controller;
+using Autobattler.InputActions;
+using Autobattler.Props;
+using Autobattler.Utils;
 using UnityEngine;
 
-namespace Combat.Manager
+namespace Autobattler.Manager
 {
 	public class InputManager
 	{

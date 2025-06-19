@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdc70bb699fd6454192bfd6676edd02e, type: 3}
   m_Name: 0_Warrior_Common
   m_EditorClassIdentifier: 
-  _moveSpeed: 2
+  _moveSpeed: 5
   _rotationSpeed: 10
   _damageType: 0
   _searchRange: 100
@@ -33,7 +33,7 @@ MonoBehaviour:
   - MaxHealth: 100
     MaxMP: 100
     AttackPower: 1000
-    DefensePower: 2
+    DefensePower: 1
     CritProb: 0
   - MaxHealth: 0
     MaxMP: 0
