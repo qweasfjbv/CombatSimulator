@@ -73,6 +73,7 @@ namespace Autobattler.Controller
 		private void InitCombat()
 		{
 			isEnemyDead = false;
+			isTargetFlagDirty = true;
 			animator.SetBool(animIDDeath, false);
 			currentMP = 0f;
 			CacheStatData(unitData.StatsByLevel[0]);
@@ -111,15 +112,15 @@ namespace Autobattler.Controller
 				currentAttackCooltime -= Time.deltaTime;
 		}
 
-		private bool isTargetFlagDirty = false;
+		private bool isTargetFlagDirty = true;
 		private bool isAbleToTargeted = false;
 
 		/** IDamagable Interface **/
 		public bool IsAbleToTargeted(float duration)
 		{
 			if (currentHP <= 0f) return false;
-			if (isTargetFlagDirty) return isAbleToTargeted;
-			
+			if (!isTargetFlagDirty) return isAbleToTargeted;
+
 			float tmpHP = currentHP;
 			float lastTime = 0;
 
@@ -132,7 +133,7 @@ namespace Autobattler.Controller
 					break;
 				}
 			}
-			
+
 			isAbleToTargeted = (tmpHP > 0f || (tmpHP <= 0f && Time.time + duration < lastTime));
 			isTargetFlagDirty = false;
 			return isAbleToTargeted;
